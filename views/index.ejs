@@ -23,6 +23,18 @@
 <li>git push heroku main</li>
 </ul>
 
+<h1>AOE4 Units</h1>
+    <ul class="rappers">
+    <% for(let i=0; i < info.length; i++) {%>
+        <li class="rapper">
+            <p><%= JSON.stringify(info[i].data[i].id) %></p>
+            <p><%= JSON.stringify(info[i].data[i].classes[i]) %></p>
+            
+            <span class='del'>delete</span>
+        </li>
+    <% } %>
+    </ul>
+
 <script src='/main.js'></script>
 </body>
 </html>
