@@ -24,17 +24,27 @@
 </ul>
 
 <h1>AOE4 Units</h1>
-    <ul class="rappers">
-    <% for(let i=0; i < info.length; i++) {%>
-        <li class="rapper">
-            <p><%= JSON.stringify(info[i].data[i].id) %></p>
-            <p><%= JSON.stringify(info[i].data[i].classes[i]) %></p>
+    <!-- <ul class="rappers"> -->
+    <form action="/seeUnit" method="GET">
+        <select id = "selectNumberOne">
+            <% for(let i=0; i < info[0].data.length; i++) {%>
+                <!-- <li class="rapper"> -->
+                <!-- <p><%= JSON.stringify(info[0].data[i].id) %></p> -->
+                <!-- <p><%= JSON.stringify(info[0].data[i].classes[i]) %></p> -->
             
-            <span class='del'>delete</span>
-        </li>
-    <% } %>
+                <option id="selectedUnit" value="#" name="unitName"> <%= JSON.stringify(info[0].data[i].id)  %> </option>
+            
+            
+            <% } %>    
+        <!-- </li> -->
+        </select>
+        <button id="submit" type="submit">Submit</button>
+    </form>
+    
+    
+    <h3 id="selectedUnitInfo2"><%= info2 %></h3>
     </ul>
 
-<script src='/main.js'></script>
+<script src="/Full-stack-template/public/main.js"></script>
 </body>
 </html>
