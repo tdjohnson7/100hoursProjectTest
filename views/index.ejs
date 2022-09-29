@@ -24,27 +24,39 @@
 </ul>
 
 <h1>AOE4 Units</h1>
+<label>Choose two units to compare</label>
     <!-- <ul class="rappers"> -->
-    <form action="/seeUnit" method="GET">
-        <select id = "selectNumberOne">
-            <% for(let i=0; i < info[0].data.length; i++) {%>
-                <!-- <li class="rapper"> -->
-                <!-- <p><%= JSON.stringify(info[0].data[i].id) %></p> -->
-                <!-- <p><%= JSON.stringify(info[0].data[i].classes[i]) %></p> -->
-            
-                <option id="selectedUnit" value="#" name="unitName"> <%= JSON.stringify(info[0].data[i].id)  %> </option>
+    <form action="/getSelectedUnitObject" method="GET">
+        <select id="selectNumberOne" name="selectNumberOne">
+            <option selected>Choose a unit</option>
+            <% for(let i=0; i < info.length; i++) {%>
+                
+                
+                <option id="selectedUnit" value="<%= JSON.stringify(info[i].data.id)  %>"> <%= JSON.stringify(info[i].data.id)  %> </option>
             
             
             <% } %>    
         <!-- </li> -->
         </select>
-        <button id="submit" type="submit">Submit</button>
+        <select id="selectNumberTwo" name="selectNumberTwo">
+            <option selected>Choose a second unit</option>
+            <% for(let i=0; i < info.length; i++) {%>
+                
+                
+                <option id="selectedUnit2" value="<%= JSON.stringify(info[i].data.id)  %>"> <%= JSON.stringify(info[i].data.id)  %> </option>
+            
+            
+            <% } %>    
+        <!-- </li> -->
+        </select>
+        <button type="submit">Submit</button>
     </form>
     
     
-    <h3 id="selectedUnitInfo2"><%= info2 %></h3>
-    </ul>
+    
+    
+    
 
-<script src="/Full-stack-template/public/main.js"></script>
+<script src="Full-stack-template/public/main.js"></script>
 </body>
 </html>

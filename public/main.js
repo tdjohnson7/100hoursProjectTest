@@ -47,26 +47,27 @@
 
 // exports.test = test
 
-//const submitButton = document.querySelector('#submit')
+// const submitButton = querySelector('#submit')
 
-//submitButton.addEventListener('click', sendSelectedUnit)
+// submitButton.addEventListener('click', sendSelectedUnit)
 
-async function sendSelectedUnit(){
-    const selectedUnit = document.querySelector('#selectedUnit').innerText
-    try{
-    let unitObject = await fetch('/getSelectedUnitObject',{
-        method: 'get',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify({
-            selectedUnit: selectedUnit
-        })
-    })
-    const data = await unitObject.json()
-    console.log(data)
-    location.reload()
-}catch(err){
-    console.log(err)
-}
-}
+// async function sendSelectedUnit(){
+//     const selectedUnit = document.querySelector('#selectNumberOne').innerText
+//     console.log(selectedUnit)
+//     try{
+//     let unitObject = await fetch('/getSelectedUnitObject',{
+//         method: 'get',
+//         headers:{
+//             'Content-Type':'application/json'
+//         },
+//         body: JSON.stringify({
+//             selectedUnit: selectedUnit
+//         })
+//     })
+//     const data = await unitObject.json()
+//     console.log(data)
+//     location.reload()
+// }catch(err){
+//     console.log(err)
+// }
+// }
