@@ -16,7 +16,7 @@ MongoClient.connect(dbConnectionString, {useUnifiedTopology: true})
     .then(client => {
         console.log(`Connected to Database`)
         db = client.db(dbName)
-        collection = db.collection('AOE42ndCollection')
+        //collection = db.collection('AOE42ndCollection')
     })
 
 app.set('view engine', 'ejs')
@@ -36,7 +36,7 @@ app.use(cors())
 app.get('/', async (request, response)=>{
     try{
         
-        const listOfUnits = await db.collection("AOE42ndCollection").find().toArray()
+        const listOfUnits = await db.collection('AOE42ndCollection').find().toArray()
         //console.log(listOfUnits[0].data.baseId)
         
         
@@ -76,12 +76,13 @@ app.get('/getSelectedUnitObject', async (request, response)=>{
     try{
         //console.log(request.query)
         //console.log(request.query.selectNumberOne)
-        const test = request.query.selectNumberOne
+        
         //console.log(request.query.selectNumberTwo)
-        const selectedUnitInfoFromDB1 = await db.collection('AOE41stCollection').find({data.id: test})
+        //const selectedUnitInfoFromDB1 = await db.collection('AOE42ndCollection').findOne({_id: request.query.selectNumberOne})
+        const selectedUnitInfoFromDB1 = await db.collection('AOE42ndCollection').findOne({_id: `ObjectId('${request.query.selectNumberOne}')`})
         //const selectedUnitInfoFromDB2 = await db.collection('AOE41stCollection').find({}, {id: request.query.selectNumberOne})
-        console.log(selectedUnitInfoFromDB1)
-        //console.log(JSON.stringify(selectedUnitInfoFromDB))
+        
+        console.log(JSON.stringify(selectedUnitInfoFromDB1))
         //const selectedUnitInfoFromDB = await db.collection('AOE41stCollection').findOne({'id': request.body.selectedUnit})
         //const selectedUnit2 = await db.collection('AOE41stCollection').findOne({'id': request.body.selectedUnit2})
         //console.log(request.body.selectedUnit)
@@ -89,7 +90,7 @@ app.get('/getSelectedUnitObject', async (request, response)=>{
         //console.log(`this is the request.body ${request.query}`)
         //console.log(response)
         //response.render('index2.ejs', {info3: selectedUnit })
-        //response.render('index2.ejs', ({}))
+        //response.render('index2.ejs', ({requestTest: selectedUnitInfoFromDB1}))
     }     
     catch(err){
         console.log(err)

@@ -32,7 +32,7 @@
             <% for(let i=0; i < info.length; i++) {%>
                 
                 
-                <option id="selectedUnit" value="<%= JSON.stringify(info[i].data.id)  %>"> <%= JSON.stringify(info[i].data.id)  %> </option>
+                <option id="selectedUnit" value="<%= info[i]._id  %>"> <%= info[i].id  %> </option>
             
             
             <% } %>    
@@ -43,7 +43,7 @@
             <% for(let i=0; i < info.length; i++) {%>
                 
                 
-                <option id="selectedUnit2" value="<%= JSON.stringify(info[i].data.id)  %>"> <%= JSON.stringify(info[i].data.id)  %> </option>
+                <option id="selectedUnit2" value="<%= info[i]._id  %>"> <%= info[i].id  %> </option>
             
             
             <% } %>    
