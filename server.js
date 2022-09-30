@@ -2,9 +2,9 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const { response } = require('express')
-const MongoClient = require('mongodb').MongoClient
+const {MongoClient, ObjectId} = require('mongodb')
 require('dotenv').config()
-const PORT = 8000
+
 const main = require("./public/main.js")
 
 let db,
@@ -13,11 +13,12 @@ let db,
     collection
 
 MongoClient.connect(dbConnectionString, {useUnifiedTopology: true})
-    .then(client => {
+    .then((client) => {
         console.log(`Connected to Database`)
         db = client.db(dbName)
-        //collection = db.collection('AOE42ndCollection')
+        collection = db.collection('AOE42ndCollection')
     })
+    .catch(err=> console.log("ERROR connecting to DB: ", err))
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -36,7 +37,7 @@ app.use(cors())
 app.get('/', async (request, response)=>{
     try{
         
-        const listOfUnits = await db.collection('AOE42ndCollection').find().toArray()
+        const listOfUnits = await db.collection('AOE42ndCollection').find().sort({id:1}).toArray()
         //console.log(listOfUnits[0].data.baseId)
         
         
@@ -71,18 +72,25 @@ app.get('/seeUnit', (request, response)=>{
     .catch(error => console.error(error))
 })
 
-app.get('/getSelectedUnitObject', async (request, response)=>{
+app.post('/getSelectedUnitObject', async (request, response)=>{
     // request.body(tynon: unitName)
     try{
         //console.log(request.query)
         //console.log(request.query.selectNumberOne)
         
         //console.log(request.query.selectNumberTwo)
-        //const selectedUnitInfoFromDB1 = await db.collection('AOE42ndCollection').findOne({_id: request.query.selectNumberOne})
-        const selectedUnitInfoFromDB1 = await db.collection('AOE42ndCollection').findOne({_id: `ObjectId('${request.query.selectNumberOne}')`})
-        //const selectedUnitInfoFromDB2 = await db.collection('AOE41stCollection').find({}, {id: request.query.selectNumberOne})
+        //const selectedUnitInfoFromDB1 = await db.collection('AOE42ndCollection').find({_id: request.body.selectNumberOne})
+        console.log(request.body)
+        console.log(request.body.selectNumberOne)
+        console.log(request.body.selectNumberTwo)
+        let test = await collection.findOne({_id: ObjectId(request.body.selectNumberOne)});
+        let test2 = await collection.findOne({_id: ObjectId(request.body.selectNumberTwo)});
+        console.log("TEST", test)
+        console.log(test2)
+        //const selectedUnitInfoFromDB1 = await db.collection('AOE42ndCollection').find({_id : '6336077d44d829de28c1fc24'});
+        //const selectedUnitInfoFromDB2 = await db.collection('AOE41stCollection').find.sort({id: 1})({}, {id: request.query.selectNumberOne})
         
-        console.log(JSON.stringify(selectedUnitInfoFromDB1))
+        //console.log(selectedUnitInfoFromDB1)
         //const selectedUnitInfoFromDB = await db.collection('AOE41stCollection').findOne({'id': request.body.selectedUnit})
         //const selectedUnit2 = await db.collection('AOE41stCollection').findOne({'id': request.body.selectedUnit2})
         //console.log(request.body.selectedUnit)
