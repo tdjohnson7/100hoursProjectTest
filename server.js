@@ -26,103 +26,78 @@ app.use(express.urlencoded({extended:true}))// in place of body-parser
 app.use(express.json())// in place of body-parser
 app.use(cors())
 
-// app.get('/', async (request, response) => {
-//     try {
-//         response.render('index.ejs')
-//     } catch (error) {
-//         response.status(500).send({message: error.message})
-//     }
-// })
-//put all the unit names into a select tage/drop-down list in ejs
+//renders the main page with the inputs
+let numberOfSelectRows = 1
 app.get('/', async (request, response)=>{
     try{
-        
+        let numberOfSelectRows = 1
         const listOfUnits = await db.collection('AOE42ndCollection').find().sort({id:1}).toArray()
-        //console.log(listOfUnits[0].data.baseId)
         
         
-        response.render('index.ejs', {info: listOfUnits });
+        
+        response.render('index.ejs', {info: listOfUnits});
         
     }
     catch(err){
         console.log(err);
     }
 })
-// app.get('/', (request, response)=>{
-//     db.collection('AOE41stCollection').find().toArray()
-//     .then(data => {
-//         console.log(data[0]['data'].length)
-        
-//         //console.log(data[0])
-//         response.render('index.ejs', {info: data})
-//     })
-//     .catch(error => console.error(error))
-// })
-//
-app.get('/seeUnit', (request, response)=>{
-    // request.body(tynon: unitName)
-    db.collection('AOE42ndCollection').findOne({$eleMatch: request.body.unitName})        
-    .then(data2 => {
-        console.log(request.body)
-        //console.log(data2)
-        
-        //response.render('index.ejs', {info2: data2})
-        //response.redirect('/')
-    })
-    .catch(error => console.error(error))
-})
 
+//grab the values within the dropdown list and returns their stats to calculate which team wins and then renders the results page
 app.post('/getSelectedUnitObject', async (request, response)=>{
-    // request.body(tynon: unitName)
+   
     try{
-        //console.log(request.query)
-        //console.log(request.query.selectNumberOne)
+        let unitOne = await collection.findOne({_id: ObjectId(request.body.selectNumberOne)});
+        let unitTwo = await collection.findOne({_id: ObjectId(request.body.selectNumberTwo)});
+        console.log("Unit_One", unitOne)
+        console.log("Unit_Two", unitTwo)
         
-        //console.log(request.query.selectNumberTwo)
-        //const selectedUnitInfoFromDB1 = await db.collection('AOE42ndCollection').find({_id: request.body.selectNumberOne})
-        console.log(request.body)
-        console.log(request.body.selectNumberOne)
-        console.log(request.body.selectNumberTwo)
-        let test = await collection.findOne({_id: ObjectId(request.body.selectNumberOne)});
-        let test2 = await collection.findOne({_id: ObjectId(request.body.selectNumberTwo)});
-        console.log("TEST", test)
-        console.log(test2)
-        //const selectedUnitInfoFromDB1 = await db.collection('AOE42ndCollection').find({_id : '6336077d44d829de28c1fc24'});
-        //const selectedUnitInfoFromDB2 = await db.collection('AOE41stCollection').find.sort({id: 1})({}, {id: request.query.selectNumberOne})
+
+        const unitOneDamagePerSecond = unitOne.weapons[0].damage / unitOne.weapons[0].speed
+        const timeToKillUnitTwo = unitTwo.hitpoints / unitOneDamagePerSecond
         
-        //console.log(selectedUnitInfoFromDB1)
-        //const selectedUnitInfoFromDB = await db.collection('AOE41stCollection').findOne({'id': request.body.selectedUnit})
-        //const selectedUnit2 = await db.collection('AOE41stCollection').findOne({'id': request.body.selectedUnit2})
-        //console.log(request.body.selectedUnit)
-        //console.log(`this is the selectedUnitInfoFromDB ${JSON.stringify(selectedUnitInfoFromDB)}`)
-        //console.log(`this is the request.body ${request.query}`)
-        //console.log(response)
-        //response.render('index2.ejs', {info3: selectedUnit })
-        //response.render('index2.ejs', ({requestTest: selectedUnitInfoFromDB1}))
+        const unitTwoDamagePerSecond = unitTwo.weapons[0].damage / unitTwo.weapons[0].speed
+        const timeToKillUnitOne = unitOne.hitpoints / unitTwoDamagePerSecond 
+        let winner
+        let winningUnit
+        if(timeToKillUnitTwo > timeToKillUnitOne){
+                winner = "Team Two"
+                winningUnit = unitTwo.id
+        }
+        if(timeToKillUnitOne > timeToKillUnitTwo){
+                winner = "Team One"
+                winningUnit = unitOne.id
+        }
+        else{
+            winner = "There is not winner in war. Both units die at the same time."
+            winningUnit = ""
+        }
+        
+        
+        response.render('index2.ejs', ({winner: winner, winningUnit: winningUnit}))
     }     
     catch(err){
         console.log(err)
     }   
     })
     
+//copy the form with the selects to add more dropdown lists
+app.post('/addSelectRow', async(request, response)=>{
+    try{
+        console.log(request)
+        numberOfSelectRows = numberOfSelectRows + 1;
+        response.redirect('index3.ejs', ({numberOfSelectRows:numberOfSelectRows}))
+}
+catch(err){
+    console.log(err)
+}
+    
+})
 
 
-// let value = Document.querySelector('select').value
-// app.get('/two', (request, response)=> {
-//     db.collection('AOE41stCollection').find({"id" : value })
-//     .then(data => {
-//         response.render('index.ejs', {info: data})
-//     })
-// })
 
 //PORT = 8000
 app.listen(process.env.PORT || PORT, () => {
     console.log(`Server is running on port`)
 })
-
-// app.get('/getSelectedUnitObject', (req,res)=>{
-//     db.collection('AOE41stCollection').find
-// })
-
-// import * as SDK from "C:/Users/tdjoh/OneDrive/Desktop/aoe4unitdata.json";
 

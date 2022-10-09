@@ -25,7 +25,7 @@
 
 <h1>AOE4 Units</h1>
 <label>Choose two units to compare</label>
-
+<% for(let i=0; i < numberOfSelectRows; i++) {%>
     <!-- <ul class="rappers"> -->
     <form action="/getSelectedUnitObject" method="POST">
         <select id="selectNumberOne" name="selectNumberOne">
@@ -54,16 +54,16 @@
         <button type="submit">Submit</button>
         
     </form>
-    
+    <% } %>  
     <label for="addAnotherSelectRow">Add another drop down list to add more units to an army</label>
     <button action="/addSelectRow" method="GET" id="addAnotherSelectRow">Add Row</button>
-   
+    <p>Current Number of Rows: <%= numberOfSelectRows %></p>
     
     
     
     
     
 
-<script src="/public/main.js"></script>
+<script src="Full-stack-template/public/main.js"></script>
 </body>
 </html>

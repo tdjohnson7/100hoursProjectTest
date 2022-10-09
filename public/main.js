@@ -71,3 +71,20 @@
 //     console.log(err)
 // }
 // }
+if (typeof document !== "undefined") {
+    console.log( 'document exists')
+} else {
+    console.log( 'document does not exist')
+}
+
+// let selectionCounter = 0
+// function cloneSelect() {
+//     let select = document.getElementById('selectNumberOne')
+//     let clone = select.cloneNode(true)
+//     let name = select.getAttribute('name') + selectionCounter++
+//     clone.id =  name
+//     clone.setAttribute('name', name)
+//     document.getElementById('selectContainer').appendChild(clone)
+// }
+
+// document.getElementById('addAnotherSelectRow').addEventListener('click', cloneSelect())
