@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Template</title>
     <link rel="stylesheet" href="/style.css">
+    
+    
 </head>
 <body>
 
-<h2>This is a test, yo.</h2>
+<!-- <h2>This is a test, yo.</h2>
 
 <h2>Here's how you set up and push to Heroku.</h2>
 
@@ -21,42 +23,65 @@
 <li>git add . </li>
 <li>git commit -m "changes"</li>
 <li>git push heroku main</li>
-</ul>
+</ul> -->
 
-<h1>AOE4 Units</h1>
-<label>Choose two units to compare</label>
+<h1>AOE4 Unit Counter Calculator</h1>
+<h2>Choose two units or two teams of units to compare</h2>
 
     <!-- <ul class="rappers"> -->
-    <form action="/getSelectedUnitObject" method="POST">
-        <select id="selectNumberOne" name="selectNumberOne">
-            <option selected>Choose a unit</option>
-            <% for(let i=0; i < info.length; i++) {%>
-                
-                
-                <option id="selectedUnit" value="<%= info[i]._id  %>"> <%= info[i].id  %> </option>
-            
-            
-            <% } %>    
-        <!-- </li> -->
-        </select>
-        <select id="selectNumberTwo" name="selectNumberTwo">
-            <option selected>Choose a second unit</option>
-            <% for(let i=0; i < info.length; i++) {%>
-                
-                
-                <option id="selectedUnit2" value="<%= info[i]._id  %>"> <%= info[i].id  %> </option>
-            
-            
-            <% } %>    
-        <!-- </li> -->
-        </select>
-        
+        <label for="addAnotherSelectRowForTeam1"></label>
+    <button id="addAnotherSelectRowForTeam1">Add Row Team1</button>
+    <label for="addAnotherSelectRowForTeam2"></label>
+    <button id="addAnotherSelectRowForTeam2">Add Row Team2</button>
+    <form action="/getSelectedUnitObject" method="POST" name="form" id="form">
+        <div id="divOne">
+            <section class="sectionOne" id="sectionOne" name="sectionOne">
+                <label for="selectNumberOne">Select a Unit for Team 1</label>
+                <br>
+                <select id="selectNumberOne" name="selectNumberOne" title="optionForSelection1"       class="selectNumberOne" required>
+                    
+                    <% for(let i=0; i < info.length; i++) {%>
+                    
+                    
+                        <option id="selectedUnit" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option>
+                        
+                        
+                            
+                        <% } %>       
+            <!-- </li> -->
+                </select>
+                <br>
+                <label for="numberOne">select a number of Units</label>
+                <input id="numberOne" type = "number" name="numberOne" placeholder="1" value="1" min="1">
+            </section>
+        </div>
+        <div id="divTwo">
+            <section class="sectionTwo" id="sectionTwo">
+                <label for="selectNumberTwo">Select a Unit for Team 2</label>
+                <br>
+                <select id="selectNumberTwo" name="selectNumberTwo" title="optionForSelection2" class="selectNumberTwo" required>
+                    
+                    <% for(let i=0; i < info.length; i++) {%>
+                    
+                    
+                    <option id="selectedUnit2" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option>
+                    
+                    
+                        
+                    <% } %>    
+            <!-- </li> -->
+            </select>
+            <br>
+            <label for="numberOne">select a number of Units</label>
+                <input id="numberTwo" type = "number" name="numberTwo" placeholder="1" value='1'>
+            </section>
+        </div>
+        <br>
         <button type="submit">Submit</button>
         
     </form>
     
-    <label for="addAnotherSelectRow">Add another drop down list to add more units to an army</label>
-    <button action="/addSelectRow" method="GET" id="addAnotherSelectRow">Add Row</button>
+    
    
     
     
@@ -64,6 +89,8 @@
     
     
 
-<script src="/public/main.js"></script>
+<script src="/main.js"></script>
+
+
 </body>
 </html>

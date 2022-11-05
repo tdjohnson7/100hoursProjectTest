@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Template</title>
     <link rel="stylesheet" href="/style.css">
+   
 </head>
 <body>
 
-<h2>This is a test, yo.</h2>
+<!-- <h2>This is a test, yo.</h2>
 
 <h2>Here's how you set up and push to Heroku.</h2>
 
@@ -21,15 +22,59 @@
 <li>git add . </li>
 <li>git commit -m "changes"</li>
 <li>git push heroku main</li>
-</ul>
+</ul> -->
 
 <h1>AOE4 Units</h1>
       
 
-          <h1><%= winner %></h1>
-          <h1><%= winningUnit %></h1>
+          <h1>The winning team is <%= winner %></h1>
+          <h1><%=  %></h1>
+
+        <h1><%=winner%>'s Stats </h1>
+            
+                <% for(let i=0; i < arrayOfWinningTeamObjects.length; i++) {%>
+                
+                <section>
+                    <p><%=arrayOfWinningTeamObjects[i].name %></p> 
+                    <p>Age <%=arrayOfWinningTeamObjects[i].age %></p> 
+                    <p>Damage <%=arrayOfWinningTeamObjects[i].weapons[0].damage %></p>
+                    <p>Attack Speed <%=arrayOfWinningTeamObjects[i].weapons[0].speed %></p>
+                    <p>Hitpoints <%=arrayOfWinningTeamObjects[i].hitpoints %></p>
+                    <p>Food Cost <%=arrayOfWinningTeamObjects[i].costs.food %></p>
+                    <p>Wood Cost <%=arrayOfWinningTeamObjects[i].costs.wood %></p>
+                    <p>Gold Cost <%=arrayOfWinningTeamObjects[i].costs.gold %></p>
+                    <p>Total Cost <%=arrayOfWinningTeamObjects[i].costs.total %></p>
+                </section>
+        
+                <% } %> 
+                
+          <h1>The losing team is <%= loser %></h1>
+          <h1><%=  %></h1>
+
+        <h1><%=loser%>'s Stats </h1>
+            
+                <% for(let i=0; i < arrayOfLosingTeamObjects.length; i++) {%>
+                
+                <section>
+                    <p><%=arrayOfLosingTeamObjects[i].name %></p> 
+                    <p>Age <%=arrayOfLosingTeamObjects[i].age %></p> 
+                    <p>Damage <%=arrayOfLosingTeamObjects[i].weapons[0].damage %></p>
+                    <p>Attack Speed <%=arrayOfLosingTeamObjects[i].weapons[0].speed %></p>
+                    <p>Hitpoints <%=arrayOfLosingTeamObjects[i].hitpoints %></p>
+                    <p>Food Cost <%=arrayOfLosingTeamObjects[i].costs.food %></p>
+                    <p>Wood Cost <%=arrayOfLosingTeamObjects[i].costs.wood %></p>
+                    <p>Gold Cost <%=arrayOfLosingTeamObjects[i].costs.gold %></p>
+                    <p>Total Cost <%=arrayOfLosingTeamObjects[i].costs.total %></p>
+                </section>
+        
+                <% } %> 
+
+                
+                
+            
         
 
 <script src="/Full-stack-template/public/main2.js"></script>
+
 </body>
 </html>

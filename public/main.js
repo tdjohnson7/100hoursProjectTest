@@ -77,14 +77,36 @@ if (typeof document !== "undefined") {
     console.log( 'document does not exist')
 }
 
-// let selectionCounter = 0
-// function cloneSelect() {
-//     let select = document.getElementById('selectNumberOne')
+let selectionCounter = 0
+function cloneSelect1() {
+    let section = document.getElementById('sectionOne')
+    let clone = section.cloneNode(true)
+    let name = section.getAttribute('name') + selectionCounter++
+    clone.id =  name
+    clone.setAttribute('name', name)
+    document.querySelector('#divOne').appendChild(clone)
+    //console.log('working')
+}
+// function cloneSelect1() {
+//     let select = document.getElementById('sectionOne')
 //     let clone = select.cloneNode(true)
 //     let name = select.getAttribute('name') + selectionCounter++
 //     clone.id =  name
 //     clone.setAttribute('name', name)
-//     document.getElementById('selectContainer').appendChild(clone)
+//     document.querySelector('#form').appendChild(clone)
+//     //console.log('working')
 // }
+function cloneSelect2() {
+    let section = document.getElementById('sectionTwo')
+    let clone = section.cloneNode(true)
+    let name = section.getAttribute('name') + selectionCounter++
+    clone.id =  name
+    clone.setAttribute('name', name)
+    document.querySelector('#divTwo').appendChild(clone)
+    //console.log('working')
+}
 
-// document.getElementById('addAnotherSelectRow').addEventListener('click', cloneSelect())
+document.getElementById('addAnotherSelectRowForTeam1').addEventListener('click', cloneSelect1)
+document.getElementById('addAnotherSelectRowForTeam2').addEventListener('click', cloneSelect2)
+
+console.log('winner')
