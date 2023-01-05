@@ -3,7 +3,15 @@
 }
 
 body {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    
+    color: white;
+    background-color: black;
+    background: linear-gradient(70deg, black, grey);
+    background-repeat: no-repeat;
+    
+
+    
 }
 
 form{
@@ -11,21 +19,48 @@ form{
 }
 
 section{
+    
     padding: 15px;
-    align-items: flex-start;
+    
     width: 100%;
+    
 }
-#divOne, #divTwo{
+
+
+#divOne{
     width: 50%;
-    float: left;
+    
+    margin: 10px;
+    
     
     justify-content: center;
-    border: red 5px solid;
+    border: grey 5px solid;
+    max-width:fit-content;
+    min-width:fit-content;
+    border-radius: 10px;
 }
-#sectionOne, #sectionTwo{
+
+#divTwo{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#divThree{
+    display: flex;
+    justify-content: center;
+}
+
+
+#divFour{
     
-    
-    
-    
-    
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+h1, h2{
+    letter-spacing: 5px;
+    border: 2px grey solid;
+    font-weight: 200;
 }

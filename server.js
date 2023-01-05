@@ -10,13 +10,15 @@ require('dotenv').config()
 let db,
     dbConnectionString = process.env.DB_STRING,
     dbName = 'AOE4',
-    collection
+    collection,
+    collection2
 
-MongoClient.connect(dbConnectionString, {useUnifiedTopology: true})
+MongoClient.connect(dbConnectionString, {useUnifiedTopology: true, useNewUrlParser: true})
     .then((client) => {
         console.log(`Connected to Database`)
         db = client.db(dbName)
         collection = db.collection('AOE42ndCollection')
+        collection2 = db.collection('AOE4TechCollection')
     })
     .catch(err=> console.log("ERROR connecting to DB: ", err))
 
@@ -27,17 +29,54 @@ app.use(express.json())// in place of body-parser
 app.use(cors())
 
 //renders the main page with the inputs
-let numberOfSelectRows = 1
+
 app.get('/', async (request, response)=>{
     try{
-        let numberOfSelectRows = 1
         const listOfUnits = await db.collection('AOE42ndCollection').find().sort({name: 1, age:1}).toArray()
         
-        
-        
         response.render('index.ejs', {info: listOfUnits});
-        
     }
+    catch(err){
+        console.log(err);
+    }
+})
+
+app.post('/getSelectTechs1', async (request, response)=>{
+    try{
+        // // const listOfUnits = await db.collection('AOE4TechCollection').find().sort({name: 1, age:1}).toArray()
+        
+        // // response.render('index.ejs', {info: listOfUnits});
+        // // works console.log(request.body.selectText1)
+         let test = await collection.findOne({_id: ObjectId(request.body.selectText1)})
+        // //console.log('test', test.civs)
+        // console.log(...test.civs)
+        // //console.log('object', object)
+        // var testTechs = await collection2.find({baseId: "Biology"})
+        // const result = await testTechs.toArray()
+        
+        
+        // console.log('result', result)
+        /*
+ * Requires the MongoDB Node.js Driver
+ * https://mongodb.github.io/node-mongodb-native
+ */
+
+const filter = {
+    'civs': {$in: [...test.civs]}
+  };
+  
+  const client = await MongoClient.connect(
+    'mongodb+srv://tdjohnson91:Mongo1011657@cluster0.qauwu.mongodb.net/?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  );
+  const coll = client.db('AOE4').collection('AOE4TechCollection');
+  const cursor = coll.find(filter);
+  const result = await cursor.toArray();
+  console.log(result)
+  await client.close();
+  response.render('index.ejs', {techResults1: result});
+    }
+    // civs: {$elemMatch: {...test.civs}}
     catch(err){
         console.log(err);
     }
@@ -45,262 +84,195 @@ app.get('/', async (request, response)=>{
 
 //grab the values within the dropdown list and returns their stats to calculate which team wins and then renders the results page
 app.post('/getSelectedUnitObject', async (request, response)=>{
-   let teamOne = []
-   let teamTwo = []
-   let teamOne_IdsOnly = []
-   let teamTwo_IdsOnly = []
-   let arrayOfTeamOneObjects = []
-   let arrayOfTeamTwoObjects = []
-   let arrayOfTeamOneUnitNumbers = []
-   let arrayOfTeamTwoUnitNumbers = []
-   let hitpointsArrayTeam1 = []
-   let hitpointsArrayTeam2 = []
-   let damageArrayTeam1 = []
-   let damageArrayTeam2 = []
-   let attackSpeedArrayTeam1 = []
-   let attackSpeedArrayTeam2 = []
-   let team1NamesOnlyArray=[]
-   let team2NamesOnlyArray=[]
+   
     try{
-        
-        //console.log('requestDOTbody', request.body.selectNumberOne[0])
         let requestBody = request.body
         console.log('request body', requestBody)
-        // //returns in this format 'selectNumberOne---6336077d44d829de28c1fc19'
-        // const requestBody = Object.entries(request.body).map(([key,val])=>(key + '---' + val))
-        // //seperate the array of ids and _ids into team specific arrays
-        // for(i=0;i<requestBody.length;i++){
-        //     if(requestBody[i].startsWith('selectNumberOne')){
-        //         teamOne.push(requestBody[i])
-        //     }
-        // }
-        // for(i=0;i<requestBody.length;i++){
-        //     if(requestBody[i].startsWith('selectNumberTwo')){
-        //         teamTwo.push(requestBody[i])
-                
-                               
-        //     }
-        // }
-        
-        
-        
-        
-        // //remove the id from the _id
-        // for(i=0;i<teamOne.length;i++){
-        //     teamOne_IdsOnly[i] = teamOne[i].slice(teamOne[i].lastIndexOf('-')+1)
-        // }
-        
-        // for(i=0;i<teamTwo.length;i++){
-        //     teamTwo_IdsOnly[i] = teamTwo[i].slice(teamTwo[i].lastIndexOf('-')+1)
-        // }
        
-       console.log(`this is the request body selectNumberOne length ${requestBody.selectNumberOne.length}`)
         //send the _ids to mongo teamOne
         //teamOne
-        if(typeof request.body.selectNumberOne == 'object'){
-            for(i=0;i<request.body.selectNumberOne.length;i++){
-                let tempVariable = await collection.findOne({_id: ObjectId(requestBody.selectNumberOne[i])})
-                arrayOfTeamOneObjects.push(tempVariable)
+        let teamOne = {}
+        teamOne.unit = await collection.findOne({_id: ObjectId(requestBody.selectNumberOne)})
                 
-            }
-        }
-        else if(typeof request.body.selectNumberOne == 'string'){
-            let tempVariable = await collection.findOne({_id: ObjectId(requestBody.selectNumberOne)})
-                arrayOfTeamOneObjects.push(tempVariable)
-        }
-        else{
-            console.log('no unit was selected for team one')
-        }
+        
         //send the _ids to mongo 
         //teamTwo
-        if(typeof request.body.selectNumberTwo == 'object'){
-            for(i=0;i<request.body.selectNumberTwo.length;i++){
-                let tempVariable = await collection.findOne({_id: ObjectId(requestBody.selectNumberTwo[i])})
-                arrayOfTeamTwoObjects.push(tempVariable)
+        let teamTwo = {}
+        teamTwo.unit = await collection.findOne({_id: ObjectId(requestBody.selectNumberTwo)})
                 
-            }
-        }
-        else if(typeof request.body.selectNumberTwo == 'string'){
-            let tempVariable = await collection.findOne({_id: ObjectId(requestBody.selectNumberTwo)})
-                arrayOfTeamTwoObjects.push(tempVariable)
-        }
-        else{
-            console.log('no unit was selected for team two')
-        }
+        
+        
         //add numberOfUnits to team unit objects
         //team one
-        if(typeof request.body.numberOne == 'object'){
-            for(i=0;i<request.body.numberOne.length;i++){
-                //arrayOfTeamOneUnitNumbers.push(request.body.numberOne[i])
-                arrayOfTeamOneObjects[i].numberOfUnits = request.body.numberOne[i]
-            }
-        }
+        teamOne.numberOfUnits = request.body.numberOne
         
-        else if(typeof request.body.selectNumberTwo == 'string'){
-            arrayOfTeamOneUnitNumbers.push(request.body.numberOne)
-            arrayOfTeamOneObjects[0].numberOfUnits = request.body.numberOne   
-        }
-        else{
-            console.log('no unit number was selected for team one')
-        }
         //add numberOfUnits to team unit objects
         //team two
-        if(typeof request.body.numberTwo == 'object'){
-            for(i=0;i<request.body.numberTwo.length;i++){
-                //arrayOfTeamOneUnitNumbers.push(request.body.numberOne[i])
-                arrayOfTeamTwoObjects[i].numberOfUnits = request.body.numberTwo[i]
-            }
-        }
-        
-        else if(typeof request.body.selectNumberTwo == 'string'){
-            arrayOfTeamTwoUnitNumbers.push(request.body.numberTwo)
-            arrayOfTeamTwoObjects[0].numberOfUnits = request.body.numberTwo   
-        }
-        else{
-            console.log('no unit number was selected for team two')
-        }
+        teamTwo.numberOfUnits = request.body.numberTwo
         
         //hitpoints
-        for(i=0;i<arrayOfTeamOneObjects.length;i++){
-            hitpointsArrayTeam1.push(arrayOfTeamOneObjects[i].hitpoints * arrayOfTeamOneObjects[i].numberOfUnits)
+        teamOne.teamHitpoints = teamOne.unit.hitpoints * teamOne.numberOfUnits
+        
+        teamTwo.teamHitpoints = teamTwo.unit.hitpoints * teamTwo.numberOfUnits   
+
+
+        
+        //check for damge modifiers
+       
+        teamOne.displayClasses = teamOne.unit.displayClasses[0].toLowerCase()
+        teamTwo.displayClasses = teamTwo.unit.displayClasses[0].toLowerCase()
+        
+        if(!teamOne.unit.weapons[0].modifiers){
+            console.log('no modifiers team one')
+            teamOne.weaponModifiers = 0
+            
         }
-        console.log(hitpointsArrayTeam1)
-        for(i=0;i<arrayOfTeamTwoObjects.length;i++){
-            hitpointsArrayTeam2.push(arrayOfTeamTwoObjects[i].hitpoints * arrayOfTeamTwoObjects[i].numberOfUnits)
-        }
-        //damage
-        for(i=0;i<arrayOfTeamOneObjects.length;i++){
-            if(!arrayOfTeamOneObjects[i].weapons[0].damage){
-                arrayOfTeamOneObjects[i].weapons[0].damage = 0
-            }
-            damageArrayTeam1.push(arrayOfTeamOneObjects[i].weapons[0].damage * arrayOfTeamOneObjects[i].numberOfUnits)
-        }
-      
-        for(i=0;i<arrayOfTeamTwoObjects.length;i++){
-            if(!arrayOfTeamTwoObjects[i].weapons[0].damage){
-                arrayOfTeamTwoObjects[i].weapons[0].damage = 0
-            }
-            damageArrayTeam2.push(arrayOfTeamTwoObjects[i].weapons[0].damage * arrayOfTeamTwoObjects[i].numberOfUnits)
-        }
-        //attack speed
-        for(i=0;i<arrayOfTeamOneObjects.length;i++){
-            if(!arrayOfTeamOneObjects[i].weapons[0].speed){
-                arrayOfTeamOneObjects[i].weapons[0].speed = 0
-            }
-            attackSpeedArrayTeam1.push(arrayOfTeamOneObjects[i].weapons[0].speed)
+        else{
+            teamOne.weaponModifiers = teamOne.unit.weapons[0].modifiers[0].target.class[0].join(' ').toLowerCase()
         }
         
-        for(i=0;i<arrayOfTeamTwoObjects.length;i++){
-            if(!arrayOfTeamTwoObjects[i].weapons[0].speed){
-                arrayOfTeamTwoObjects[i].weapons[0].speed = 0
-            }
-            attackSpeedArrayTeam2.push(arrayOfTeamTwoObjects[i].weapons[0].speed)
+        if(!teamTwo.unit.weapons[0].modifiers){
+            console.log('no modifiers team two')
+            teamTwo.weaponModifiers = 0
+            
         }
-        //get unit names
-        for(i=0;i<arrayOfTeamOneObjects.length;i++){
-            team1NamesOnlyArray.push(arrayOfTeamOneObjects[i].id)
-        }
-        for(i=0;i<arrayOfTeamTwoObjects.length;i++){
-            team2NamesOnlyArray.push(arrayOfTeamTwoObjects[i].id)
+        else{
+            teamTwo.weaponModifiers = teamTwo.unit.weapons[0].modifiers[0].target.class[0].join(' ').toLowerCase()
         }
         
-        let team1DamagePerSecond = (damageArrayTeam1.reduce((acc,c) => acc+c,0) / attackSpeedArrayTeam1.reduce((acc,c) => acc+c,0))
-        let team2DamagePerSecond = (damageArrayTeam2.reduce((acc,c) => acc+c,0) / attackSpeedArrayTeam2.reduce((acc,c) => acc+c,0))
-        let timeToKillTeam1 = (hitpointsArrayTeam1.reduce((acc,c)=> acc+c,0)) / team2DamagePerSecond
-        let timeToKillTeam2 = (hitpointsArrayTeam2.reduce((acc,c)=> acc+c,0)) / team1DamagePerSecond
-        console.log(`this is the damageArrayTeam1 ${damageArrayTeam1}`)
-        console.log(`this is the damageArrayTeam2 ${damageArrayTeam2}`)
-        console.log(`this is the damageArrayTeam1 total ${damageArrayTeam1.reduce((acc,c) => acc+c,0)}`)
-        console.log(`this is the damageArrayTeam2 total ${damageArrayTeam2.reduce((acc,c) => acc+c,0)}`)
-        console.log(`this is the attackSpeedArrayTeam1 ${attackSpeedArrayTeam1}`)
-        console.log(`this is the attackSpeedArrayTeam2 ${attackSpeedArrayTeam2}`)
-        console.log(`this is the attackSpeedArrayTeam1 total ${attackSpeedArrayTeam1.reduce((acc,c) => acc+c,0)}`)
-        console.log(`this is the attackSpeedArrayTeam2 total ${attackSpeedArrayTeam2.reduce((acc,c) => acc+c,0)}`)
-        console.log(`this is the team1DamagePerSecond ${team1DamagePerSecond}`)
-        console.log(`this is the team2DamagePerSecond ${team2DamagePerSecond}`)
-        console.log(`this is the hitpointsArrayTeam1 ${hitpointsArrayTeam1}`)
-        console.log(`this is the hitpointsArrayTeam2 ${hitpointsArrayTeam2}`)
-        console.log(`this is the hitpointsArrayTeam1 total ${hitpointsArrayTeam1.reduce((acc,c)=> acc+c,0)}`)
-        console.log(`this is the hitpointsArrayTeam2 total ${hitpointsArrayTeam1.reduce((acc,c)=> acc+c,0)}`)
-        console.log(`this is the team1DamagePerSecond ${team1DamagePerSecond}`)
-        console.log(`this is the team2DamagePerSecond ${team2DamagePerSecond}`)
-        console.log(`this is the timeToKillTeam1 ${timeToKillTeam1}`)
-        console.log(`this is the timeToKillTeam2 ${timeToKillTeam2}`)
-        console.log(arrayOfTeamOneObjects)
-        console.log(arrayOfTeamTwoObjects)
-        // console.log(hitpointsArrayTeam1)
-        // console.log(hitpointsArrayTeam2)
-        // console.log(damageArrayTeam1)
-        // console.log(damageArrayTeam2)
-        // console.log(attackSpeedArrayTeam1)
-        // console.log(attackSpeedArrayTeam2)
+    
+        //does team one get weapon mod?
+        if(teamTwo.displayClasses.includes(teamOne.weaponModifiers)){
+            
+            teamOne.weaponModifiersValue = teamOne.unit.weapons[0].modifiers[0].value
+            
+        }
+        else{
+            teamOne.weaponModifiersValue=0
+        }
+        //does team two get weapon mod?
+        if(teamOne.displayClasses.includes(teamTwo.weaponModifiers)){
+           
+            teamTwo.weaponModifiersValue = teamTwo.unit.weapons[0].modifiers[0].value
+            
+        }
+        else{
+            teamTwo.weaponModifiersValue=0
+        }
+        
+
+        //find armor
+        
+        //tean one armor
+        teamOne.armor = 0
+        teamOne.armorType = 'none'
+        teamTwo.armor = 0
+        teamTwo.armorType = 'none'
+        if(teamOne.unit.armor[0] && teamTwo.unit.weapons[0].type == teamOne.unit.armor[0].type){
+            teamOne.armor = teamOne.unit.armor[0].value
+            teamOne.armorType = teamOne.unit.armor[0].type
+        }
+        else if(teamOne.unit.armor[1] && teamTwo.unit.weapons[0].type == teamOne.unit.armor[1].type){
+            teamOne.armor = teamOne.unit.armor[1].value
+            teamOne.armorType = teamOne.unit.armor[1].type
+        }
+        else{
+            teamOne.armor = 0
+            teamOne.armorType = 'none'
+        }
+        //tean two armor
+        if(teamTwo.unit.armor[0] && teamOne.unit.weapons[0].type == teamTwo.unit.armor[0].type){
+            teamTwo.armor = teamTwo.unit.armor[0].value
+            teamTwo.armorType = teamTwo.unit.armor[0].type
+        }
+        else if(teamTwo.unit.armor[1] && teamOne.unit.weapons[0].type == teamTwo.unit.armor[1].type){
+            teamTwo.armor = teamTwo.unit.armor[1].value
+            teamTwo.armorType = teamTwo.unit.armor[1].type
+        }
+        else{
+            teamTwo.armor = 0
+            teamTwo.armorType = 'none'
+        }
+
+        //if no damage, damge = 0
+        if(!teamOne.unit.weapons[0].damage){
+            teamOne.unit.weapons[0].damage = 0
+    }
+    
+    if(!teamTwo.unit.weapons[0].damage){
+            teamTwo.unit.weapons[0].damage = 0
+    }
+
+    //calculate true unit damage
+    teamOne.trueUnitDamage = teamOne.unit.weapons[0].damage + teamOne.weaponModifiersValue - teamTwo.armor
+    teamTwo.trueUnitDamage = teamTwo.unit.weapons[0].damage + teamTwo.weaponModifiersValue - teamOne.armor
+
+    //calculate team damage
+
+    teamOne.teamDamage = teamOne.trueUnitDamage * teamOne.numberOfUnits
+    teamTwo.teamDamage = teamTwo.trueUnitDamage * teamTwo.numberOfUnits
+
+        //if no attack speed, attack speed = 0
+        
+            if(!teamOne.unit.weapons[0].speed){
+                teamOne.unit.weapons[0].speed = 0
+            }
+    
+            if(!teamTwo.unit.weapons[0].speed){
+                teamTwo.unit.weapons[0].speed = 0
+            }
+          
+        
+        
+        teamOne.teamDamagePerSecond = teamOne.teamDamage / teamOne.unit.weapons[0].speed
+        teamTwo.teamDamagePerSecond = teamTwo.teamDamage / teamTwo.unit.weapons[0].speed
+        teamOne.teamTimeToKill = teamOne.teamHitpoints / teamTwo.teamDamagePerSecond
+        teamTwo.teamTimeToKill = teamTwo.teamHitpoints / teamOne.teamDamagePerSecond
+       
         //determine winning team
         let winner
         let loser
-        let arrayOfWinningTeamObjects
-        let arrayOfLosingTeamObjects
-        console.log(`This is team1 attackspeed array ${attackSpeedArrayTeam1}`)
-        console.log(`This is team2 attackspeed array ${attackSpeedArrayTeam2}`)
-        
-        if(timeToKillTeam1 > timeToKillTeam2){
-            winner = 'Team1'
-            loser ='Team2'
-            arrayOfWinningTeamObjects = arrayOfTeamOneObjects
-            arrayOfLosingTeamObjects = arrayOfTeamTwoObjects
+        let winningTeam
+        let losingTeam
+               
+        if(teamOne.teamTimeToKill > teamTwo.teamTimeToKill){
+            winner = 'Team 1'
+            loser ='Team 2'
+            winningTeam = teamOne
+            losingTeam = teamTwo
         }
-        else if(timeToKillTeam1 < timeToKillTeam2){
-            winner = 'Team2'
-            loser = 'Team1'
-            arrayOfWinningTeamObjects = arrayOfTeamTwoObjects
-            arrayOfLosingTeamObjects = arrayOfTeamOneObjects
+        else if(teamOne.teamTimeToKill < teamTwo.teamTimeToKill){
+            winner = 'Team 2'
+            loser = 'Team 1'
+            winningTeam = teamTwo
+            losingTeam = teamOne
         }
         else{
-            winner = 'Somehow you picked a stalemate. Try again!'
-            loser = 'Somehow you picked a stalemate. Try again!'
+            winner = 'Stalemate. Try again!'
+            loser = 'Stalemate. Try again!'
             
-            arrayOfWinningTeamObjects = arrayOfTeamTwoObjects
-            arrayOfLosingTeamObjects = arrayOfTeamOneObjects
+            winningTeam = teamOne
+            losingTeam = teamTwo
             
         }
-        
-        //console.log(arrayOfTeamOneObjects[0])
-        //console.log("arrayOfTeamOneObjects", arrayOfTeamOneObjects)
-        // console.log(arrayOfTeamTwoObjects)
-        // //pull info from objects
-        // console.log(arrayOfTeamOneObjects)
-        // console.log(arrayOfTeamTwoObjects)
-        //let unitOne = await collection.findOne({_id: ObjectId(request.body.selectNumberOne)});
-        // let unitTwo = await collection.findOne({_id: ObjectId(request.body.selectNumberTwo)});
-        //console.log("Unit_One", unitOne)
-        // console.log("Unit_Two", unitTwo)
-        
-        
-        // const unitOneDamagePerSecond = unitOne.weapons[0].damage / unitOne.weapons[0].speed
-        // const timeToKillUnitTwo = unitTwo.hitpoints / unitOneDamagePerSecond
-        
-        // const unitTwoDamagePerSecond = unitTwo.weapons[0].damage / unitTwo.weapons[0].speed
-        // const timeToKillUnitOne = unitOne.hitpoints / unitTwoDamagePerSecond 
-        // let winner
-        // let winningUnit
-        // if(timeToKillUnitTwo > timeToKillUnitOne){
-        //         winner = "Team Two"
-        //         winningUnit = unitTwo.id
-        // }
-        // if(timeToKillUnitOne > timeToKillUnitTwo){
-        //         winner = "Team One"
-        //         winningUnit = unitOne.id
-        // }
-        // else{
-        //     winner = "There is not winner in war. Both units die at the same time."
-        //     winningUnit = ""
-        // }
-        // // console.log(request)
-        // // console.log(requestBody)
-        // console.log(teamOne)
-        // console.log(teamOneIdsOnly)
-        
 
-        response.render('index2.ejs', ({winner: winner, loser: loser, arrayOfWinningTeamObjects: arrayOfWinningTeamObjects, arrayOfLosingTeamObjects: arrayOfLosingTeamObjects}))
+        response.render('index2.ejs', ({
+            winner: winner,
+            loser: loser, 
+            winningTeam: winningTeam, 
+            losingTeam: losingTeam, 
+            teamOneWeaponModifiers: teamOne.weaponModifiers,
+            //teamOneWeaponModifiersNumber: teamOne.unit.weapons[0].modifiers[0].value,
+            teamTwoWeaponModifiers: teamTwo.weaponModifiers,
+            //teamTwoWeaponModifiersNumber: teamTwo.unit.weapons[0].modifiers[0].value,
+        }))
+        console.log('winning team', winningTeam)
+        console.log('losing team', losingTeam)
+        console.log('teamOne.teamDamagePerSecond', teamOne.teamDamagePerSecond)
+        console.log('teamTwo.teamDamagePerSecond', teamTwo.teamDamagePerSecond)
+        
+        console.log('teamOne.teamTimeToKill', teamOne.teamTimeToKill)
+        console.log('teamTwo.teamTimeToKill', teamTwo.teamTimeToKill)
     }     
     catch(err){
         console.log(err)

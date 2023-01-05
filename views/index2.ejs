@@ -32,42 +32,58 @@
 
         <h1><%=winner%>'s Stats </h1>
             
-                <% for(let i=0; i < arrayOfWinningTeamObjects.length; i++) {%>
+              
                 
                 <section>
-                    <p><%=arrayOfWinningTeamObjects[i].name %></p> 
-                    <p>Age <%=arrayOfWinningTeamObjects[i].age %></p> 
-                    <p>Damage <%=arrayOfWinningTeamObjects[i].weapons[0].damage %></p>
-                    <p>Attack Speed <%=arrayOfWinningTeamObjects[i].weapons[0].speed %></p>
-                    <p>Hitpoints <%=arrayOfWinningTeamObjects[i].hitpoints %></p>
-                    <p>Food Cost <%=arrayOfWinningTeamObjects[i].costs.food %></p>
-                    <p>Wood Cost <%=arrayOfWinningTeamObjects[i].costs.wood %></p>
-                    <p>Gold Cost <%=arrayOfWinningTeamObjects[i].costs.gold %></p>
-                    <p>Total Cost <%=arrayOfWinningTeamObjects[i].costs.total %></p>
+                    <p><%=winningTeam.unit.name %></p> 
+                    <p>Age <%=winningTeam.unit.age %></p> 
+                    <p>Damage <%=winningTeam.unit.weapons[0].damage %></p>
+                    <p>Armor <%=winningTeam.armor %></p>
+                    <p>Armor Type <%=winningTeam.armorType %></p>
+                    <p>Weapon Modifier <%=winningTeam.weaponModifiersValue %></p>
+                    <p>Adjusted Damage <%=winningTeam.trueUnitDamage %></p>
+                    <p>Team Damage</p>
+                    <p>Attack Speed <%=winningTeam.unit.weapons[0].speed %></p>
+                    <p>Hitpoints <%=winningTeam.unit.hitpoints %></p>
+                    <p>Food Cost <%=winningTeam.unit.costs.food %></p>
+                    <p>Wood Cost <%=winningTeam.unit.costs.wood %></p>
+                    <p>Gold Cost <%=winningTeam.unit.costs.gold %></p>
+                    <p>Total Cost <%=winningTeam.unit.costs.total %></p>
                 </section>
         
-                <% } %> 
+              
                 
           <h1>The losing team is <%= loser %></h1>
           <h1><%=  %></h1>
 
         <h1><%=loser%>'s Stats </h1>
             
-                <% for(let i=0; i < arrayOfLosingTeamObjects.length; i++) {%>
+                
                 
                 <section>
-                    <p><%=arrayOfLosingTeamObjects[i].name %></p> 
-                    <p>Age <%=arrayOfLosingTeamObjects[i].age %></p> 
-                    <p>Damage <%=arrayOfLosingTeamObjects[i].weapons[0].damage %></p>
-                    <p>Attack Speed <%=arrayOfLosingTeamObjects[i].weapons[0].speed %></p>
-                    <p>Hitpoints <%=arrayOfLosingTeamObjects[i].hitpoints %></p>
-                    <p>Food Cost <%=arrayOfLosingTeamObjects[i].costs.food %></p>
-                    <p>Wood Cost <%=arrayOfLosingTeamObjects[i].costs.wood %></p>
-                    <p>Gold Cost <%=arrayOfLosingTeamObjects[i].costs.gold %></p>
-                    <p>Total Cost <%=arrayOfLosingTeamObjects[i].costs.total %></p>
+                    <p><%=losingTeam.unit.name %></p> 
+                    <p>Age <%=losingTeam.unit.age %></p> 
+                    <p>Damage <%=losingTeam.unit.weapons[0].damage %></p>
+                    <p>Armor <%=losingTeam.armor %></p>
+                    <p>Armor Type <%=losingTeam.armorType %></p>
+                    <p>Weapon Modifier <%=losingTeam.weaponModifiersValue %></p>
+                    <p>Adjusted Damage <%=losingTeam.trueUnitDamage %></p>
+                    <p>Attack Speed <%=losingTeam.unit.weapons[0].speed %></p>
+                    <p>Hitpoints <%=losingTeam.unit.hitpoints %></p>
+                    <p>Food Cost <%=losingTeam.unit.costs.food %></p>
+                    <p>Wood Cost <%=losingTeam.unit.costs.wood %></p>
+                    <p>Gold Cost <%=losingTeam.unit.costs.gold %></p>
+                    <p>Total Cost <%=losingTeam.unit.costs.total %></p>
                 </section>
         
-                <% } %> 
+                
+
+
+               <p> team one weapon modifier <%= teamOneWeaponModifiers %></p>
+               <p>number </p>
+               
+                <p>team two weapon modifier <%= teamTwoWeaponModifiers %></p>
+                <p>number </p>
 
                 
                 

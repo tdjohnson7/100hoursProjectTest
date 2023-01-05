@@ -24,60 +24,81 @@
 <li>git commit -m "changes"</li>
 <li>git push heroku main</li>
 </ul> -->
-
-<h1>AOE4 Unit Counter Calculator</h1>
+<div id="divThree">
+    <h1>AOE4 Unit Counter Calculator</h1>
+</div>
+<div id="divThree">
 <h2>Choose two units or two teams of units to compare</h2>
+</div>
 
-    <!-- <ul class="rappers"> -->
-        <label for="addAnotherSelectRowForTeam1"></label>
+    
+        <!-- <label for="addAnotherSelectRowForTeam1"></label>
     <button id="addAnotherSelectRowForTeam1">Add Row Team1</button>
     <label for="addAnotherSelectRowForTeam2"></label>
-    <button id="addAnotherSelectRowForTeam2">Add Row Team2</button>
+    <button id="addAnotherSelectRowForTeam2">Add Row Team2</button> -->
+
+</div>
+
     <form action="/getSelectedUnitObject" method="POST" name="form" id="form">
-        <div id="divOne">
-            <section class="sectionOne" id="sectionOne" name="sectionOne">
-                <label for="selectNumberOne">Select a Unit for Team 1</label>
-                <br>
-                <select id="selectNumberOne" name="selectNumberOne" title="optionForSelection1"       class="selectNumberOne" required>
-                    
-                    <% for(let i=0; i < info.length; i++) {%>
-                    
-                    
-                        <option id="selectedUnit" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option>
+        <div id="divTwo">
+            <div id="divOne">
+                <section class="sectionOne" id="sectionOne" name="sectionOne">
+                    <label for="selectNumberOne">Select a Unit for Team 1</label>
+                    <br>
+                    <select id="selectNumberOne" name="selectNumberOne" title="optionForSelection1"       class="selectNumberOne"  onchange="detectChange(this)" required>
+                        
+                        <% for(let i=0; i < info.length; i++) {%>
+                        
+                        
+                            <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option>
+                            
+                            
+                                
+                            <% } %>       
+                <!-- </li> -->
+                    </select>
+                    <br>
+                    <label for="numberOne">Select a number of Units</label>
+                    <br>
+                    <input id="numberOne" type = "number" name="numberOne" placeholder="1" value="1" min="1">
+                    <select>
+                        <% for(let i=0; i < techResults1.length; i++) {%>
+                        <option><%=techResults1[i].name%> </option>
+                        <% } %>  
+                    </select>
+                </section>
+            </div>
+            <div id="divOne">
+                <section class="sectionTwo" id="sectionTwo">
+                    <label for="selectNumberTwo">Select a Unit for Team 2</label>
+                    <br>
+                    <select id="selectNumberTwo" name="selectNumberTwo" title="optionForSelection2" class="selectNumberTwo" required>
+                        
+                        <% for(let i=0; i < info.length; i++) {%>
+                        
+                        
+                        <option id="selectedUnit2" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option>
                         
                         
                             
-                        <% } %>       
-            <!-- </li> -->
+                        <% } %>    
+                <!-- </li> -->
                 </select>
                 <br>
-                <label for="numberOne">select a number of Units</label>
-                <input id="numberOne" type = "number" name="numberOne" placeholder="1" value="1" min="1">
-            </section>
-        </div>
-        <div id="divTwo">
-            <section class="sectionTwo" id="sectionTwo">
-                <label for="selectNumberTwo">Select a Unit for Team 2</label>
+                <label for="numberOne">Select a number of Units</label>
                 <br>
-                <select id="selectNumberTwo" name="selectNumberTwo" title="optionForSelection2" class="selectNumberTwo" required>
-                    
-                    <% for(let i=0; i < info.length; i++) {%>
-                    
-                    
-                    <option id="selectedUnit2" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option>
-                    
-                    
-                        
-                    <% } %>    
-            <!-- </li> -->
-            </select>
+                    <input id="numberTwo" type = "number" name="numberTwo" placeholder="1" value='1'>
+                </section>
+            </div>
             <br>
-            <label for="numberOne">select a number of Units</label>
-                <input id="numberTwo" type = "number" name="numberTwo" placeholder="1" value='1'>
-            </section>
+            
         </div>
+        <div id = "divFour">
+            <button id= 'submit' type="submit">Submit</button>
+        </div>
+        
         <br>
-        <button type="submit">Submit</button>
+        
         
     </form>
     

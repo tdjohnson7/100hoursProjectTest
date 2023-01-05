@@ -106,7 +106,51 @@ function cloneSelect2() {
     //console.log('working')
 }
 
+
+
 document.getElementById('addAnotherSelectRowForTeam1').addEventListener('click', cloneSelect1)
 document.getElementById('addAnotherSelectRowForTeam2').addEventListener('click', cloneSelect2)
 
 console.log('winner')
+
+
+//get tech options for selected option
+let selectElement1 = document.querySelector("#selectNumberOne")
+let selectElement2 = document.querySelector("#selectNumberTwo")
+
+async function getTechOptionsForSelect1(){
+    const selectText1 = selectElement1.options[selectElement1.selectedIndex].text;
+    try{
+        const response = await fetch('/getSelectTechs1', {
+            method: 'GET',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({
+                'selectText1': selectText1
+            })
+        })
+        const data = await response.json()
+        console.log(data)
+        //location.reload()
+    }catch(err){
+        console.log(err)
+    }
+}
+
+async function detectChange(selection){
+    try{
+        const response = await fetch('/getSelectTechs1', {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({
+                'selectText1': selection.value
+            })
+        })
+        //const data = await response.json()
+        console.log(selection.value)
+        //console.log(data)
+        //location.reload()
+    }catch(err){
+        console.log(err)
+    }
+    
+}
