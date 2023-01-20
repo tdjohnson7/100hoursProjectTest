@@ -108,8 +108,8 @@ function cloneSelect2() {
 
 
 
-document.getElementById('addAnotherSelectRowForTeam1').addEventListener('click', cloneSelect1)
-document.getElementById('addAnotherSelectRowForTeam2').addEventListener('click', cloneSelect2)
+// document.getElementById('addAnotherSelectRowForTeam1').addEventListener('click', cloneSelect1)
+// document.getElementById('addAnotherSelectRowForTeam2').addEventListener('click', cloneSelect2)
 
 console.log('winner')
 
@@ -129,7 +129,7 @@ async function getTechOptionsForSelect1(){
             })
         })
         const data = await response.json()
-        console.log(data)
+        console.log(`This is the ${data}`)
         //location.reload()
     }catch(err){
         console.log(err)
@@ -138,15 +138,23 @@ async function getTechOptionsForSelect1(){
 
 async function detectChange(selection){
     try{
-        const response = await fetch('/getSelectTechs1', {
+        
+        const requestFromMainJS = await fetch('/getSelectTechs1', {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
                 'selectText1': selection.value
             })
         })
+       
         //const data = await response.json()
-        console.log(selection.value)
+        const techArray = await requestFromMainJS.json()
+        console.log(`this is the selection.value ${selection.value}`)
+        console.log(techArray)
+        techSelect1.innerHTML = ""
+        for(i=0; i < techArray.length; i++){
+            techSelect1.innerHTML += `<option title="${techArray[i].description}" id='techArray1' value=${techArray[i]._id} value>`+ techArray[i].name +"</option>"
+        }
         //console.log(data)
         //location.reload()
     }catch(err){
@@ -154,3 +162,4 @@ async function detectChange(selection){
     }
     
 }
+

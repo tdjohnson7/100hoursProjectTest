@@ -43,11 +43,13 @@ app.get('/', async (request, response)=>{
 
 app.post('/getSelectTechs1', async (request, response)=>{
     try{
+        console.log(request)
         // // const listOfUnits = await db.collection('AOE4TechCollection').find().sort({name: 1, age:1}).toArray()
         
         // // response.render('index.ejs', {info: listOfUnits});
         // // works console.log(request.body.selectText1)
          let test = await collection.findOne({_id: ObjectId(request.body.selectText1)})
+        
         // //console.log('test', test.civs)
         // console.log(...test.civs)
         // //console.log('object', object)
@@ -61,9 +63,27 @@ app.post('/getSelectTechs1', async (request, response)=>{
  * https://mongodb.github.io/node-mongodb-native
  */
 
-const filter = {
-    'civs': {$in: [...test.civs]}
-  };
+// const filter2 = {
+//     'civs': {$in: [...test.civs]}
+//   };
+
+  const filter = {
+    $and: [{
+        civs: {
+            $in: [...test.civs]
+        }
+    }, {
+        $or: [{
+            "effects.select.class": {
+                $in: [
+                    [...test.classes]
+                ]
+            }
+        }, {
+            "effects.select.id": test.baseId
+        }]
+    }]
+}
   
   const client = await MongoClient.connect(
     'mongodb+srv://tdjohnson91:Mongo1011657@cluster0.qauwu.mongodb.net/?retryWrites=true&w=majority',
@@ -72,9 +92,10 @@ const filter = {
   const coll = client.db('AOE4').collection('AOE4TechCollection');
   const cursor = coll.find(filter);
   const result = await cursor.toArray();
-  console.log(result)
+  //console.log(result)
   await client.close();
-  response.render('index.ejs', {techResults1: result});
+  response.json(result);
+  console.log('result',result)
     }
     // civs: {$elemMatch: {...test.civs}}
     catch(err){
@@ -84,10 +105,10 @@ const filter = {
 
 //grab the values within the dropdown list and returns their stats to calculate which team wins and then renders the results page
 app.post('/getSelectedUnitObject', async (request, response)=>{
-   
+   console.log(request)
     try{
         let requestBody = request.body
-        console.log('request body', requestBody)
+        //console.log('request body', requestBody)
        
         //send the _ids to mongo teamOne
         //teamOne
@@ -285,6 +306,6 @@ app.post('/getSelectedUnitObject', async (request, response)=>{
 
 //PORT = 8000
 app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server is running on port`)
+    console.log(`Server is running on port ${process.env.PORT}`)
 })
 
