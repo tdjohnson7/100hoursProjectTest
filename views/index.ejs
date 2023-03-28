@@ -39,54 +39,110 @@
 
 </div>
 
-    <form action="/getSelectedUnitObject" method="POST" name="form" id="form">
+    <form action="/calculate" method="POST" name="form" id="form">
         <div id="divTwo">
             <div id="divOne">
+                <label for="selectCivNumberOne">Select a Civ</label>
                 <section class="sectionOne" id="sectionOne" name="sectionOne">
-                    <label for="selectNumberOne">Select a Unit for Team 1</label>
+                    <select id="selectCivNumberOne" name="selectCivNumberOne" onchange="getUnits1(this), getAges1(this)">
+                        <option value="ab">Abbasid</option>
+                        <option value="ch">Chinese</option>
+                        <option value="hr">Holy Roman Empire</option>
+                        <option value="en">English</option>
+                        <option value="de">Delhi Sultanate</option>
+                        <option value="fr">French</option>
+                        <option value="mo">Mongols</option>
+                        <option value="ru">Rus</option>
+                        <option value="ot">Ottomans</option>
+                        <option value="ma">Malians</option>
+                    </select>
+
                     <br>
-                    <select id="selectNumberOne" name="selectNumberOne" title="optionForSelection1"       class="selectNumberOne"  onchange="detectChange(this)" required>
+
+                    <label for="selectUnitNumberOne">Select a Unit</label>              
+                    <select id="selectUnitNumberOne" name="selectUnitNumberOne" title="optionForSelection1"       class="selectNumberOne"  onchange="agesThenTechs1()">
                         
                         <% for(let i=0; i < info.length; i++) {%>
-                        
-                        
-                            <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option>
-                            
+                
+                            <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i] %></option>
+                            <!-- <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option> -->
                             
                                 
                             <% } %>       
-                <!-- </li> -->
+                
+                    </select>
+                    <!-- to select civ -->
+                    <br>
+                    <label for="selectAgeNumberOne">Choose an Age</label>
+                    <select id="selectAgeNumberOne" name="selectAgeNumberOne" title="agesForSelection1"       class="selectNumberOne"  onchange="getTechs1(this)">
+                        
+                            
+                
                     </select>
                     <br>
+
                     <label for="numberOne">Select a number of Units</label>
-                    <br>
                     <input id="numberOne" type = "number" name="numberOne" placeholder="1" value="1" min="1">
-                    <select id="techSelect1">
+                    
+                    <br>
+
+                    <label for="techSelectOne">Select a Tech</label>
+                    <select id="techSelectOne" id="techSelectOne" multiple>
                         
                     </select>
                     
                 </section>
             </div>
             <div id="divOne">
-                <section class="sectionTwo" id="sectionTwo">
-                    <label for="selectNumberTwo">Select a Unit for Team 2</label>
+                <label for="selectCivNumberTwo">Select a Civ</label>
+                <section class="sectionOne" id="sectionOne" name="sectionOne">
+                    <select id="selectCivNumberTwo" name="selectCivNumberTwo" onchange="getUnits2(this), getAges2(this), getTechs2()">
+                        <option value="ab">Abbasid</option>
+                        <option value="ch">Chinese</option>
+                        <option value="hr">Holy Roman Empire</option>
+                        <option value="en">English</option>
+                        <option value="de">Delhi Sultanate</option>
+                        <option value="fr">French</option>
+                        <option value="mo">Mongols</option>
+                        <option value="ru">Rus</option>
+                        <option value="ot">Ottomans</option>
+                        <option value="ma">Malians</option>
+                    </select>
+
                     <br>
-                    <select id="selectNumberTwo" name="selectNumberTwo" title="optionForSelection2" class="selectNumberTwo" required>
+
+                    <label for="selectUnitNumberTwo">Select a Unit</label>              
+                    <select id="selectUnitNumberTwo" name="selectUnitNumberTwo" title="optionForSelection2"       class="selectNumberTwo"  onchange="agesThenTechs2()" >
                         
                         <% for(let i=0; i < info.length; i++) {%>
-                        
-                        
-                        <option id="selectedUnit2" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option>
-                        
+                
+                            <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i] %></option>
+                            <!-- <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option> -->
+                            
+                                
+                            <% } %>       
+                
+                    </select>
+                    <!-- to select civ -->
+                    <br>
+                    <label for="selectAgeNumberTwo">Choose an Age</label>
+                    <select id="selectAgeNumberTwo" name="selectAgeNumberTwo" title="agesForSelection2"       class="selectNumberOne"  onchange="getTechs2(this)" >
                         
                             
-                        <% } %>    
-                <!-- </li> -->
-                </select>
-                <br>
-                <label for="numberOne">Select a number of Units</label>
-                <br>
-                    <input id="numberTwo" type = "number" name="numberTwo" placeholder="1" value='1'>
+                
+                    </select>
+                    <br>
+
+                    <label for="numberTwo">Select a number of Units</label>
+                    <input id="numberTwo" type = "number" name="numberTwo" placeholder="1" value="1" min="1">
+                    
+                    <br>
+
+                    <label for="techSelectTwo">Select a Tech</label>
+                    <select id="techSelectTwo" name="techSelectTwo" multiple>
+                        
+                    </select>
+                    
                 </section>
             </div>
             <br>
