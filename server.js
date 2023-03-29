@@ -100,10 +100,11 @@ app.post('/getSelectTechs', async (request, response)=>{
         // // response.render('index.ejs', {info: listOfUnits});
         // // works console.log(request.body.selectText1)
          //let test = await collection.findOne({_id: ObjectId(request.body.selectText)})
-         let test = await collection.findOne({'name': request.body.selectText, 'civs': {$in: [request.body.selectCiv.toLowerCase()]}, 'age': Number(request.body.selectAge)})
+       
+         let test = await collection.findOne({'name': request.body.selectText.replace(' ', '-').toLowerCase(), 'civs': {$in: [request.body.selectCiv.toLowerCase()]}, 'age': Number(request.body.selectAge)})
         
         //console.log('getSelectTech1 result',test)
-        console.log('request.body.selectText',request.body.selectText)
+        console.log('request.body.selectText',request.body.selectText.replace(' ', '-').toLowerCase())
         console.log('request.body.selectCiv.toLowerCase()',request.body.selectCiv.toLowerCase())
         console.log('request.body.selectAge',request.body.selectAge)
         // console.log(...test.civs)
@@ -140,7 +141,7 @@ app.post('/getSelectTechs', async (request, response)=>{
 // }
 // const filter2 = {civs:{ $in: ['hr','fr', 'ch', 'de', 'ab', 'mo', 'ru']}, effectedUnitIds: 'archer', minAge: {$lte: 4}}
 //const filter2 = {civs:{ $in: [...test.civs]}, effectedUnitIds: test.baseId, minAge: {$lte: test.age}}
- const filter2 = {civs:{ $in: [request.body.selectCiv]}, effectedUnitIds: {$in: [request.body.selectText.toLowerCase()]}, minAge: {$lte: Number(request.body.selectAge)}}
+ const filter2 = {civs:{ $in: [request.body.selectCiv]}, effectedUnitIds: {$in: [request.body.selectText.toLowerCase().replace(' ','-')]}, minAge: {$lte: Number(request.body.selectAge)}}
  
  //const filter3 = {civs:{ $in: [request.body.selectCiv]}, effectedUnitIds: {$in: [test.name.toLowerCase()]}, minAge: {$lte: test.age}}
 // console.log('test.civs', ...test.civs)
@@ -198,12 +199,13 @@ console.log('request.body.selectCiv',request.body.selectCiv)
   const cursor = await coll.find(filter2);
   const result = await cursor.toArray();
   console.log(result.length)
+  
   //console.log(result)
   await client.close();
 
-  if(result.length == 0){
-    resul = 'No techs to display'
-  }
+//   if(result.length == 0){
+//     result = 'No techs to display'
+//   }
   response.json(result);
   //console.log('result',result)
     }
@@ -215,8 +217,28 @@ console.log('request.body.selectCiv',request.body.selectCiv)
 
 //grab the values within the dropdown list and returns their stats to calculate which team wins and then renders the results page
 app.post('/calculate', async (request, response)=>{
-   console.log(request.body)
+   console.log('/calculate request.body',request.body)
     try{
+        let unitObject1 = await collection.findOne({'name': request.body.unit1, 'civs': {$in: [request.body.civ1]}, 'age': Number(request.body.age1)})
+        let unitObject2 = await collection.findOne({'name': request.body.unit2, 'civs': {$in: [request.body.civ2]}, 'age': Number(request.body.age2)})
+        
+        let tech1Array = []
+        for(i=0;i<request.body.techs1.length;i++){
+        let techObjects1 = await db.collection('AOE42ndTechCollection').findOne({_id : ObjectId(request.body.techs1[i])})
+        let techObjectsResult1 = await techObjects1
+        
+        tech1Array.push(techObjectsResult1)
+       }
+       console.log(tech1Array)
+        // let techObjects1 = await db.collection('AOE42ndTechCollection').find({id: ObjectId(request.body.techs1)})
+        
+        //let techObjects2 = await db.collection('AOE42ndTechCollection').find({_id : {$in: ObjectId(request.body.techs2)}})
+
+        //console.log("unitObject1", unitObject1)
+        //console.log('unitObject2',unitObject2)
+        
+        //console.log('techObjects2',techObjects2)
+        
     //     let requestBody = request.body
     //     //console.log('request body', requestBody)
        

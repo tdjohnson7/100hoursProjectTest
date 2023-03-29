@@ -317,33 +317,33 @@ async function getTechs2(selection){
 
 
 //grab unit techs when unit is switched
-async function detectChange2(selection){
-    try{
+// async function detectChange2(selection){
+//     try{
         
-        const requestFromMainJS = await fetch('/getSelectTechs1', {
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({
-                'selectText': selection.value
-            })
-        })
-       console.log('selection', selection)
-       console.log('selection id', selection.id)
-        //const data = await response.json()
-        const techArray = await requestFromMainJS.json()
-        console.log(`this is the selection.value ${selection.value}`)
-        console.log(techArray)
-        techSelect2.innerHTML = `<option title="Optionally choose a tech" id='techArray1' value='1'> Choose a unit tech </option>`
-        for(i=0; i < techArray.length; i++){
-            techSelect2.innerHTML += `<option title="${techArray[i].description}" id='techArray1' value=${techArray[i]._id} value>`+ techArray[i].name +"</option>"
-        }
-        //console.log(data)
-        //location.reload()
-    }catch(err){
-        console.log(err)
-    }
+//         const requestFromMainJS = await fetch('/getSelectTechs1', {
+//             method: 'POST',
+//             headers: {'Content-type': 'application/json'},
+//             body: JSON.stringify({
+//                 'selectText': selection.value
+//             })
+//         })
+//        console.log('selection', selection)
+//        console.log('selection id', selection.id)
+//         //const data = await response.json()
+//         const techArray = await requestFromMainJS.json()
+//         console.log(`this is the selection.value ${selection.value}`)
+//         console.log(techArray)
+//         techSelect2.innerHTML = `<option title="Optionally choose a tech" id='techArray1' value='1'> Choose a unit tech </option>`
+//         for(i=0; i < techArray.length; i++){
+//             techSelect2.innerHTML += `<option title="${techArray[i].description}" id='techArray1' value=${techArray[i]._id} value>`+ techArray[i].name +"</option>"
+//         }
+//         //console.log(data)
+//         //location.reload()
+//     }catch(err){
+//         console.log(err)
+//     }
     
-}
+// }
 
 async function bigBoy1(){
     try{
@@ -394,19 +394,19 @@ const form = document.getElementById('form')
 form.addEventListener('submit', (event) => {
     event.preventDefault()
     
-    const civ1 = document.getElementById('selectCivNumberOne').selectedOptions[0].getAttribute('value')
-    const unit1 = document.getElementById('selectUnitNumberOne').selectedOptions[0].text
-    const age1 = document.getElementById('selectAgeNumberOne').selectedOptions[0].text
-    const civ2 = document.getElementById('selectCivNumberTwo').selectedOptions[0].getAttribute('value')
-    const unit2 = document.getElementById('selectUnitNumberTwo').selectedOptions[0].text
-    const age2 = document.getElementById('selectAgeNumberTwo').selectedOptions[0].text
+    // const civ1 = document.getElementById('selectCivNumberOne').selectedOptions[0].getAttribute('value')
+    // const unit1 = document.getElementById('selectUnitNumberOne').selectedOptions[0].text
+    // const age1 = document.getElementById('selectAgeNumberOne').selectedOptions[0].text
+    // const civ2 = document.getElementById('selectCivNumberTwo').selectedOptions[0].getAttribute('value')
+    // const unit2 = document.getElementById('selectUnitNumberTwo').selectedOptions[0].text
+    // const age2 = document.getElementById('selectAgeNumberTwo').selectedOptions[0].text
 
-    console.log('civ1', civ1)
-    console.log('unit1', unit1)
-    console.log('age1', age1)
-    console.log('civ2', civ2)
-    console.log('unit2', unit2)
-    console.log('age2', age2)
+    // console.log('civ1', civ1)
+    // console.log('unit1', unit1)
+    // console.log('age1', age1)
+    // console.log('civ2', civ2)
+    // console.log('unit2', unit2)
+    // console.log('age2', age2)
 })
 
 async function submit(){
