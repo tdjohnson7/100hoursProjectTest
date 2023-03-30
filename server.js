@@ -200,7 +200,7 @@ console.log('request.body.selectCiv',request.body.selectCiv)
   const result = await cursor.toArray();
   console.log(result.length)
   
-  //console.log(result)
+  //console.log(resul)
   await client.close();
 
 //   if(result.length == 0){
