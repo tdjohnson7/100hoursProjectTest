@@ -222,6 +222,9 @@ app.post('/calculate', async (request, response)=>{
         let unitObject1 = await collection.findOne({'name': request.body.unit1, 'civs': {$in: [request.body.civ1]}, 'age': Number(request.body.age1)})
         let unitObject2 = await collection.findOne({'name': request.body.unit2, 'civs': {$in: [request.body.civ2]}, 'age': Number(request.body.age2)})
         
+        console.log(unitObject1)
+        console.log(unitObject2)
+
         let tech1Array = []
         for(i=0;i<request.body.techs1.length;i++){
         let techObjects1 = await db.collection('AOE42ndTechCollection').findOne({_id : ObjectId(request.body.techs1[i])})
@@ -229,7 +232,18 @@ app.post('/calculate', async (request, response)=>{
         
         tech1Array.push(techObjectsResult1)
        }
-       console.log(tech1Array)
+       console.log('tech1Array', tech1Array)
+        
+       let tech2Array = []
+        for(i=0;i<request.body.techs2.length;i++){
+        let techObjects2 = await db.collection('AOE42ndTechCollection').findOne({_id : ObjectId(request.body.techs2[i])})
+        let techObjectsResult2 = await techObjects2
+        
+        tech2Array.push(techObjectsResult2)
+       }
+       console.log('tech2Array', tech2Array)
+
+       
         // let techObjects1 = await db.collection('AOE42ndTechCollection').find({id: ObjectId(request.body.techs1)})
         
         //let techObjects2 = await db.collection('AOE42ndTechCollection').find({_id : {$in: ObjectId(request.body.techs2)}})
