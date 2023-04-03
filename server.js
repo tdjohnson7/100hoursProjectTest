@@ -244,6 +244,8 @@ app.post('/calculate', async (request, response)=>{
        console.log('tech2Array', tech2Array)
 
        
+
+       
         // let techObjects1 = await db.collection('AOE42ndTechCollection').find({id: ObjectId(request.body.techs1)})
         
         //let techObjects2 = await db.collection('AOE42ndTechCollection').find({_id : {$in: ObjectId(request.body.techs2)}})
