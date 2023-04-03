@@ -175,7 +175,7 @@
 //             winner = 'Somehow you picked a stalemate. Try again!'
 //         )
         
-//         //console.log(arrayOfTeamOneObjects[0])
+//         
 //         //console.log("arrayOfTeamOneObjects", arrayOfTeamOneObjects)
 //         // console.log(arrayOfTeamTwoObjects)
 //         // //pull info from objects
