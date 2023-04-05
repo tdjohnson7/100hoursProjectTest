@@ -199,7 +199,7 @@
 //         //         winningUnit = unitTwo.id
 //         // }
 //         // if(timeToKillUnitOne > timeToKillUnitTwo){
-//         //         winner = "Team One"
+//         //         winner = "Team On"
 //         //         winningUnit = unitOne.id
 //         // }
 //         // else{
