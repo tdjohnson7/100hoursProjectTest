@@ -243,8 +243,10 @@ app.post('/calculate', async (request, response)=>{
        }
        console.log('tech2Array', tech2Array)
 
+       for(i=0;i<tech1Array.length;i++){
+        tech1Array[i].effects.property.includes(unitObject1.weapons.type)
+       }
        
-
        
         // let techObjects1 = await db.collection('AOE42ndTechCollection').find({id: ObjectId(request.body.techs1)})
         
