@@ -243,8 +243,26 @@ app.post('/calculate', async (request, response)=>{
        }
        console.log('tech2Array', tech2Array)
 
+       function techEffectStringToOperator(techEffectString){
+            if(techEffectString == "multiply"){
+                return techEffectOperator = '*'
+            }
+            if(techEffectString == "add"){
+                return techEffectOperator = '+'
+            }
+            if(techEffectString == "subtract"){
+                return techEffectOperator = '-'
+            }
+            if(techEffectString == "divide"){
+                return techEffectOperator = '/'
+            }
+       }
+       let techEffectOperator
        for(i=0;i<tech1Array.length;i++){
-        tech1Array[i].effects.property.includes(unitObject1.weapons.type)
+        if(tech1Array[i].effects.property == "rangedAttack" && unitObject1.weapons.type == "ranged"){
+            let techEffectOperator = techEffectStringToOperator(tech1Array.effects.effect)
+            unitObject1.weapons.damage = unitObject1.weapons.damage techEffectOperator tech1Array[i].effects.value
+        }
        }
        
        
