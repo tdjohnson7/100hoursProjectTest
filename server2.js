@@ -151,7 +151,7 @@
 //         // console.log(damageArrayTeam2)
 //         // console.log(attackSpeedArrayTeam1)
 //         // console.log(attackSpeedArrayTeam2)
-//         //determine winner
+//         //determine win
 //         let winner
 //         let loser
 //         let arrayOfWinningTeamObjects
