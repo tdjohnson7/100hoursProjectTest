@@ -232,7 +232,6 @@ app.post('/calculate', async (request, response)=>{
         
         tech1Array.push(techObjectsResult1)
        }
-       console.log('tech1Array', tech1Array)
         
        let tech2Array = []
         for(i=0;i<request.body.techs2.length;i++){
@@ -241,6 +240,7 @@ app.post('/calculate', async (request, response)=>{
         
         tech2Array.push(techObjectsResult2)
        }
+       console.log('tech1Array', tech1Array)
        console.log('tech2Array', tech2Array)
 
        function techEffectStringToOperator(techEffectString){
@@ -257,13 +257,13 @@ app.post('/calculate', async (request, response)=>{
                 return techEffectOperator = '/'
             }
        }
-       let techEffectOperator
-       for(i=0;i<tech1Array.length;i++){
-        if(tech1Array[i].effects.property == "rangedAttack" && unitObject1.weapons.type == "ranged"){
-            let techEffectOperator = techEffectStringToOperator(tech1Array.effects.effect)
-            unitObject1.weapons.damage = unitObject1.weapons.damage techEffectOperator tech1Array[i].effects.value
-        }
-       }
+       //let techEffectOperator
+    //    for(i=0;i<tech1Array.length;i++){
+    //     if(tech1Array[i].effects.property == "rangedAttack" && unitObject1.weapons.type == "ranged"){
+    //         let techEffectOperator = techEffectStringToOperator(tech1Array.effects.effect)
+    //         unitObject1.weapons.damage = unitObject1.weapons.damage techEffectOperator tech1Array[i].effects.value
+    //     }
+    //    }
        
        
         // let techObjects1 = await db.collection('AOE42ndTechCollection').find({id: ObjectId(request.body.techs1)})
