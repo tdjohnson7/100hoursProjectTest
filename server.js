@@ -104,9 +104,9 @@ app.post('/getSelectTechs', async (request, response)=>{
          let test = await collection.findOne({'name': request.body.selectText.replace(' ', '-').toLowerCase(), 'civs': {$in: [request.body.selectCiv.toLowerCase()]}, 'age': Number(request.body.selectAge)})
         
         //console.log('getSelectTech1 result',test)
-        console.log('request.body.selectText',request.body.selectText.replace(' ', '-').toLowerCase())
-        console.log('request.body.selectCiv.toLowerCase()',request.body.selectCiv.toLowerCase())
-        console.log('request.body.selectAge',request.body.selectAge)
+        //IMPORTANT console.log('request.body.selectText',request.body.selectText.replace(' ', '-').toLowerCase())
+        // IMPORTANT console.log('request.body.selectCiv.toLowerCase()',request.body.selectCiv.toLowerCase())
+        // IMPORTANT console.log('request.body.selectAge',request.body.selectAge)
         // console.log(...test.civs)
         // //console.log('object', object)
         // var testTechs = await collection2.find({baseId: "Biology"})
@@ -149,7 +149,7 @@ app.post('/getSelectTechs', async (request, response)=>{
 // console.log(typeof (test.civs[0]))
 // console.log(typeof (test.age))
 // console.log('test.baseId', test.baseId)
-console.log('request.body.selectCiv',request.body.selectCiv)
+//console.log('request.body.selectCiv',request.body.selectCiv)
 //console.log('test.name',test.name)
 //console.log('test.age',test.age)
 
@@ -198,7 +198,7 @@ console.log('request.body.selectCiv',request.body.selectCiv)
   const coll = client.db('AOE4').collection('AOE42ndTechCollection');
   const cursor = await coll.find(filter2);
   const result = await cursor.toArray();
-  console.log(result.length)
+  //console.log(result.length)
   
   //console.log(resul)
   await client.close();
@@ -217,13 +217,13 @@ console.log('request.body.selectCiv',request.body.selectCiv)
 
 //grab the values within the dropdown list and returns their stats to calculate which team wins and then renders the results page
 app.post('/calculate', async (request, response)=>{
-   console.log('/calculate request.body',request.body)
+   //console.log('/calculate request.body',request.body)
     try{
         let unitObject1 = await collection.findOne({'name': request.body.unit1, 'civs': {$in: [request.body.civ1]}, 'age': Number(request.body.age1)})
         let unitObject2 = await collection.findOne({'name': request.body.unit2, 'civs': {$in: [request.body.civ2]}, 'age': Number(request.body.age2)})
         
-        console.log("unitObject1", unitObject1)
-        console.log("unitObject2", unitObject2)
+        //console.log("unitObject1", unitObject1)
+        //console.log("unitObject2", unitObject2)
 
         let tech1Array = []
         for(i=0;i<request.body.techs1.length;i++){
@@ -240,8 +240,8 @@ app.post('/calculate', async (request, response)=>{
         
         tech2Array.push(techObjectsResult2)
        }
-       console.log('tech1Array', tech1Array)
-       console.log('tech2Array', tech2Array)
+       //console.log('tech1Array', tech1Array)
+       //console.log('tech2Array', tech2Array)
 
        
 
@@ -276,26 +276,32 @@ app.post('/calculate', async (request, response)=>{
        }
 
 
-       let object1IndexOfRangedArmor = unitObject1.armor.indexOf(x=>x.type === 'ranged')
-       let object1IndexOfMeleeArmor = unitObject1.armor.indexOf(x=>x.type === 'melee')
-       let object2IndexOfRangedArmor = unitObject2.armor.indexOf(x=>x.type === 'ranged')
-       let object2IndexOfMeleeArmor = unitObject2.armor.indexOf(x=>x.type === 'melee')
+       let object1IndexOfRangedArmor = unitObject1.armor.findIndex(x=>x.type === 'ranged')
+       let object1IndexOfMeleeArmor = unitObject1.armor.findIndex(x=>x.type === 'melee')
+       let object2IndexOfRangedArmor = unitObject2.armor.findIndex(x=>x.type === 'ranged')
+       let object2IndexOfMeleeArmor = unitObject2.armor.findIndex(x=>x.type === 'melee')
 
        console.log('BEFORE')
-       console.log('unitObject1.weapons.damage', unitObject1.weapons.damage)
-       //console.log('unitObject1.armor[object1IndexOfRangedArmor].value', unitObject1.armor[object1IndexOfRangedArmor].value)
-       console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
-       console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
+       console.log('unitObject1.weapons.damage', unitObject1.weapons[0].damage)
+       console.log('unitObject1.armor[object1IndexOfRangedArmor].value', unitObject1.armor[object1IndexOfRangedArmor].value)
        console.log('unitObject1.armor[object1IndexOfMeleeArmor].value', unitObject1.armor[object1IndexOfMeleeArmor].value)
        console.log('unitObject1.hitpoints', unitObject1.hitpoints)
+       console.log('ARMOR INDEXS')
+       console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
+       console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
 
-       for(eachTechObject in tech1Array){//iterates through each select tech
-        for(effectObject in eachTechObject.effects){//iterates through each tech effect
+       for(eachTechObject of tech1Array){//iterates through each select tech
+        for(effectObject of eachTechObject.effects){//iterates through each tech effect
+            console.log('CONSOLE.LOG')
+            console.log("effectObject.effect", effectObject.effect)
+            console.log('unitObject1.weapons[0].damage', unitObject1.weapons[0].damage)
+            console.log('effectObject.value', effectObject.value)
+            
             if(effectObject.property == "rangedAttack" && unitObject1.weapons.type == "ranged"){//dont need to iterate through unitObject weapons because a unit only has one weapon type
-                unitObject1.weapons.damage = maths(effectObject.effect, unitObject1.weapons.damage, effectObject.value)
+                unitObject1.weapons[0].damage = maths(effectObject.effect, unitObject1.weapons[0].damage, effectObject.value)
             }
-            if(effectObject.property == "meleeAttack" && unitObject1.weapons.type == "melee"){
-                unitObject1.weapons.damage = maths(effectObject.effect, unitObject1.weapons.damage, effectObject.value)
+            if(effectObject.property == "meleeAttack" && unitObject1.weapons[0].type == "melee"){
+                unitObject1.weapons[0].damage = maths(effectObject.effect, unitObject1.weapons[0].damage, effectObject.value)
             }
             if(effectObject.property == "rangedArmor" && unitObject1.armor[object1IndexOfRangedArmor].type === "ranged"){
                 unitObject1.armor[object1IndexOfRangedArmor].value = maths(effectObject.effect, unitObject1.armor[object1IndexOfRangedArmor].value, effectObject.value)
@@ -311,10 +317,13 @@ app.post('/calculate', async (request, response)=>{
         
        }
        console.log('AFTER')
-       console.log('unitObject1.weapons.damage', unitObject1.weapons.damage)
+       console.log('unitObject1.weapons.damage', unitObject1.weapons[0].damage)
        console.log('unitObject1.armor[object1IndexOfRangedArmor].value', unitObject1.armor[object1IndexOfRangedArmor].value)
        console.log('unitObject1.armor[object1IndexOfMeleeArmor].value', unitObject1.armor[object1IndexOfMeleeArmor].value)
        console.log('unitObject1.hitpoints', unitObject1.hitpoints)
+       console.log('ARMOR INDEXS')
+       console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
+       console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
        //let techEffectOperator
     //    for(i=0;i<tech1Array.length;i++){
     //     if(tech1Array[i].effects.property == "rangedAttack" && unitObject1.weapons.type == "ranged"){

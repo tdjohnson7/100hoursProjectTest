@@ -272,11 +272,11 @@ async function getTechs1(selection){
         
         
         for(i=0; i < techArray.length; i++){
-            techSelectOne.innerHTML += `<option title="${techArray[i].description}" id='techArray1' value=${techArray[i]._id}>`+ techArray[i].name +"</option>"
+                techSelectOne.innerHTML += `<option title="${techArray[i].description}" id='techArray1' value=${techArray[i]._id}>`+ techArray[i].name +"</option>"
+            }
         }
-        
        // location.reload()
-    }catch(err){
+    catch(err){
         console.log(err)
     }
     
