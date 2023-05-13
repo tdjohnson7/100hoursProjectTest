@@ -150,7 +150,7 @@
 //         // console.log(damageArrayTeam1)
 //         // console.log(damageArrayTeam2)
 //         // console.log(attackSpeedArrayTeam1)
-//         // console.log(attackSpeedArrayTeam2)
+//         // console.log(attackSpeedArrayTeam2
 //         //determine winner
 //         let winner
 //         let loser
