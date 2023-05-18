@@ -217,10 +217,11 @@ app.post('/getSelectTechs', async (request, response)=>{
 
 //grab the values within the dropdown list and returns their stats to calculate which team wins and then renders the results page
 app.post('/calculate', async (request, response)=>{
-   //console.log('/calculate request.body',request.body)
+   console.log('/calculate request.body',request.body)
     try{
         let unitObject1 = await collection.findOne({'name': request.body.unit1, 'civs': {$in: [request.body.civ1]}, 'age': Number(request.body.age1)})
         let unitObject2 = await collection.findOne({'name': request.body.unit2, 'civs': {$in: [request.body.civ2]}, 'age': Number(request.body.age2)})
+        
         
         //console.log("unitObject1", unitObject1)
         //console.log("unitObject2", unitObject2)
@@ -243,7 +244,27 @@ app.post('/calculate', async (request, response)=>{
        //console.log('tech1Array', tech1Array)
        //console.log('tech2Array', tech2Array)
 
-       
+       if(unitObject1.armor.length == 0){//add armor values and type if object does not have any
+        unitObject1.armor = []
+        unitObject1.armor[0] = {}
+        unitObject1.armor[0].type = "ranged"
+        unitObject1.armor[0].value = 0
+        unitObject1.armor[1] = {}
+        unitObject1.armor[1].type = "melee"
+        unitObject1.armor[1].value = 0
+    }
+    if(unitObject1.armor.findIndex(x=>x.type === 'ranged') > 0 && !unitObject1.armor.findIndex(x=>x.type === 'melee') < 0){
+        unitObject1.armor = []
+        unitObject1.armor[1] = {}
+        unitObject1.armor[1].type = "melee"
+        unitObject1.armor[1].value = 0
+    }
+    if(unitObject1.armor.findIndex(x=>x.type === 'ranged') < 0 && !unitObject1.armor.findIndex(x=>x.type === 'melee') > 0){
+        
+        unitObject1.armor[1] = {}
+        unitObject1.armor[1].type = "ranged"
+        unitObject1.armor[1].value = 0
+    }else{}
 
     //    function techEffectStringToOperator(techEffectString){
     //         if(techEffectString == "multiply"){
@@ -289,6 +310,8 @@ app.post('/calculate', async (request, response)=>{
        console.log('ARMOR INDEXS')
        console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
        console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
+       console.log('+1 melee result', unitObject1.armor[object1IndexOfMeleeArmor].value)
+       console.log('+1 melee result', unitObject1.armor[object1IndexOfMeleeArmor].value + 1)
 
        for(eachTechObject of tech1Array){//iterates through each select tech
         for(effectObject of eachTechObject.effects){//iterates through each tech effect
@@ -297,7 +320,7 @@ app.post('/calculate', async (request, response)=>{
             console.log('unitObject1.weapons[0].damage', unitObject1.weapons[0].damage)
             console.log('effectObject.value', effectObject.value)
             
-            if(effectObject.property == "rangedAttack" && unitObject1.weapons.type == "ranged"){//dont need to iterate through unitObject weapons because a unit only has one weapon type
+            if(effectObject.property == "rangedAttack" && unitObject1.weapons[0].type == "ranged"){//dont need to iterate through unitObject weapons because a unit only has one weapon type
                 unitObject1.weapons[0].damage = maths(effectObject.effect, unitObject1.weapons[0].damage, effectObject.value)
             }
             if(effectObject.property == "meleeAttack" && unitObject1.weapons[0].type == "melee"){
@@ -306,16 +329,23 @@ app.post('/calculate', async (request, response)=>{
             if(effectObject.property == "rangedArmor" && unitObject1.armor[object1IndexOfRangedArmor].type === "ranged"){
                 unitObject1.armor[object1IndexOfRangedArmor].value = maths(effectObject.effect, unitObject1.armor[object1IndexOfRangedArmor].value, effectObject.value)
             }
-            if(effectObject.property == "meleeArmor" && unitObject1.armor[object1IndexOfMeleeArmor].type == "ranged"){
+            if(effectObject.property == "meleeArmor" && unitObject1.armor[object1IndexOfMeleeArmor].type == "melee"){
                 unitObject1.armor[object1IndexOfMeleeArmor].value = maths(effectObject.effect, unitObject1.armor[object1IndexOfMeleeArmor].value, effectObject.value)
             }
             if(effectObject.property == "hitpoints"){
               unitObject1.hitpoints = maths(effectObject.effect, unitObject1.hitpoints, effectObject.value)
             }
+            if(effectObject.property == "attackSpeed"){
+                unitObject1.weapons[0].speed = maths(effectObject.effect, unitObject1.weapons[0].speed, effectObject.value)
+            }
+            if(effectObject.property == "siegeAttack"){
+                unitObject1.weapons[0].damage = maths(effectObject.effect, unitObject1.weapons[0].damage, effectObject.value)
+            }
             
         }
         
        }
+       //TEST THAT TECH IS APPLIED
        console.log('AFTER')
        console.log('unitObject1.weapons.damage', unitObject1.weapons[0].damage)
        console.log('unitObject1.armor[object1IndexOfRangedArmor].value', unitObject1.armor[object1IndexOfRangedArmor].value)
@@ -324,6 +354,9 @@ app.post('/calculate', async (request, response)=>{
        console.log('ARMOR INDEXS')
        console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
        console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
+
+
+
        //let techEffectOperator
     //    for(i=0;i<tech1Array.length;i++){
     //     if(tech1Array[i].effects.property == "rangedAttack" && unitObject1.weapons.type == "ranged"){

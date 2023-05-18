@@ -424,10 +424,12 @@ async function submit(){
             'unit1' : document.getElementById('selectUnitNumberOne').selectedOptions[0].text,
             'age1' : document.getElementById('selectAgeNumberOne').selectedOptions[0].text,
             'techs1' : selectedValues1,
+            'numberOfUnits1' : document.getElementById('numberOne').value,
             'civ2' : document.getElementById('selectCivNumberTwo').selectedOptions[0].getAttribute('value'),
             'unit2' : document.getElementById('selectUnitNumberTwo').selectedOptions[0].text,
             'age2' : document.getElementById('selectAgeNumberTwo').selectedOptions[0].text,
-            'techs2' : selectedValues2
+            'techs2' : selectedValues2,
+            'numberOfUnits2' : document.getElementById('numberTwo').value
         })
     })
 }     
