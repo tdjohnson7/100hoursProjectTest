@@ -355,7 +355,32 @@ app.post('/calculate', async (request, response)=>{
        console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
        console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
 
+       const teamOneHitpoints = unitObject1.hitpoints * request.body.numberOfUnits1
+       const teamOneDamage = unitObject1.weapons[0].damage * request.body.numberOfUnits1
+       const teamOneAttackSpeed = unitObject1.weapons[0].speed
+       const teamOneMeleeArmor = unitObject1.armor[object1IndexOfMeleeArmor].value
+       const teamOneRangedArmor = unitObject1.armor[object1IndexOfRangedArmor].value
+       let teamOneWeaponModifier = 0
 
+       const teamOTwoHitpoints = unitObject2.hitpoints * request.body.numberOfUnits2
+       const teamTwoDamage = unitObject2.weapons[0].damage * request.body.numberOfUnits2
+       const teamTwoAttackSpeed = unitObject2.weapons[0].speed
+       const teamTwoMeleeArmor = unitObject2.armor[object1IndexOfMeleeArmor].value
+       const teamTwoRangedArmor = unitObject2.armor[object1IndexOfRangedArmor].value
+       let teamTwoWeaponModifier = 0
+       
+
+       
+       //check if weapon modifier should be used
+       if(unitObject1.weapons[0].modifiers[0].target.class[0].every((unitClass)=>unitObject2.displayClasses[0].toLowerCase().includes(unitClass))){
+        teamOneWeaponModifier = unitObject1.weapons[0].modifiers.value
+       }
+       if(unitObject2.weapons[0].modifiers[0].target.class[0].every((unitClass)=>unitObject1.displayClasses[0].toLowerCase().includes(unitClass))){
+        teamTwoWeaponModifier = unitObject1.weapons[0].modifiers.value
+       }
+
+       
+        
 
        //let techEffectOperator
     //    for(i=0;i<tech1Array.length;i++){
