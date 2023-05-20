@@ -356,18 +356,20 @@ app.post('/calculate', async (request, response)=>{
        console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
 
        const teamOneHitpoints = unitObject1.hitpoints * request.body.numberOfUnits1
-       const teamOneDamage = unitObject1.weapons[0].damage * request.body.numberOfUnits1
+       const teamOneDamage = unitObject1.weapons[0].damage 
        const teamOneAttackSpeed = unitObject1.weapons[0].speed
        const teamOneMeleeArmor = unitObject1.armor[object1IndexOfMeleeArmor].value
        const teamOneRangedArmor = unitObject1.armor[object1IndexOfRangedArmor].value
        let teamOneWeaponModifier = 0
+       let teamOneRelevantArmor = 0
 
        const teamOTwoHitpoints = unitObject2.hitpoints * request.body.numberOfUnits2
-       const teamTwoDamage = unitObject2.weapons[0].damage * request.body.numberOfUnits2
+       const teamTwoDamage = unitObject2.weapons[0].damage
        const teamTwoAttackSpeed = unitObject2.weapons[0].speed
        const teamTwoMeleeArmor = unitObject2.armor[object1IndexOfMeleeArmor].value
        const teamTwoRangedArmor = unitObject2.armor[object1IndexOfRangedArmor].value
        let teamTwoWeaponModifier = 0
+       let teamTwoRelevantArmor = 0
        
 
        
@@ -376,10 +378,40 @@ app.post('/calculate', async (request, response)=>{
         teamOneWeaponModifier = unitObject1.weapons[0].modifiers.value
        }
        if(unitObject2.weapons[0].modifiers[0].target.class[0].every((unitClass)=>unitObject1.displayClasses[0].toLowerCase().includes(unitClass))){
-        teamTwoWeaponModifier = unitObject1.weapons[0].modifiers.value
+        teamTwoWeaponModifier = unitObject2.weapons[0].modifiers.value
+       }
+       //find relevant armor unit 1
+       if(unitObject1.weapons.type == 'ranged' && unitObject2.armor.length > 0 && object2IndexOfRangedArmor > -1){
+        teamTwoRelevantArmor = unitObject2.armor[object2IndexOfRangedArmor].value
+       }
+       if(unitObject1.weapons.type == 'melee' && unitObject2.armor.length > 0 && object2IndexOfMeleeArmor > -1){
+        teamTwoRelevantArmor = unitObject2.armor[object2IndexOfMeleeArmor].value
+       }
+       // unit 2
+       if(unitObject2.weapons.type == 'ranged' && unitObject1.armor.length > 0 && object1IndexOfRangedArmor > -1){
+        teamOneRelevantArmor = unitObject1.armor[object1IndexOfRangedArmor].value
+       }
+       if(unitObject2.weapons.type == 'melee' && unitObject1.armor.length > 0 && object1IndexOfRangedArmor > -1){
+        teamOneRelevantArmor = unitObject1.armor[object1IndexOfMeleeArmor].value
        }
 
+       const teamOneTrueDamage = ((teamOneDamage + teamOneWeaponModifier - teamTwoRelevantArmor) * request.body.numberOfUnits1) / teamOneAttackSpeed
+       const teamTwoTrueDamage = ((teamTwoDamage  + teamTwoWeaponModifier - teamOneRelevantArmor) * request.body.numberOfUnits2) / teamTwoAttackSpeed
+
+       const teamOneTimeToKillTeamTwo = teamTwoHitpoints * teamOneTrueDamage
+       const teamTwoTimeToKillTeamOne = teamOneHitpoints * teamTwoTrueDamage
+       let winningUnit
+       let losingUnit
        
+       if(teamOneTimeToKillTeamTwo < teamTwoTimeToKillTeamOne){
+        winningUnit = unitObject1 
+        losingUnit = unitObject2
+       }
+        
+       if(teamOneTimeToKillTeamTwo < teamTwoTimeToKillTeamOne){
+        winningUnit = unitObject2
+        losingUnit = unitObject1
+       }
         
 
        //let techEffectOperator
