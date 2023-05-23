@@ -244,7 +244,7 @@ app.post('/calculate', async (request, response)=>{
        //console.log('tech1Array', tech1Array)
        //console.log('tech2Array', tech2Array)
 
-       if(unitObject1.armor.length == 0){//add armor values and type if object does not have any
+       if(unitObject1.armor.length == 0){//unit1 add armor values and type if object does not have any
         unitObject1.armor = []
         unitObject1.armor[0] = {}
         unitObject1.armor[0].type = "ranged"
@@ -253,17 +253,40 @@ app.post('/calculate', async (request, response)=>{
         unitObject1.armor[1].type = "melee"
         unitObject1.armor[1].value = 0
     }
-    if(unitObject1.armor.findIndex(x=>x.type === 'ranged') > 0 && !unitObject1.armor.findIndex(x=>x.type === 'melee') < 0){
+    //add 
+    else if(unitObject1.armor.findIndex(x=>x.type === 'ranged') > 0 && !unitObject1.armor.findIndex(x=>x.type === 'melee') < 0){
         unitObject1.armor = []
         unitObject1.armor[1] = {}
         unitObject1.armor[1].type = "melee"
         unitObject1.armor[1].value = 0
     }
-    if(unitObject1.armor.findIndex(x=>x.type === 'ranged') < 0 && !unitObject1.armor.findIndex(x=>x.type === 'melee') > 0){
+    else if(unitObject1.armor.findIndex(x=>x.type === 'melee') > 0 && !unitObject1.armor.findIndex(x=>x.type === 'ranged') < 0){
         
         unitObject1.armor[1] = {}
         unitObject1.armor[1].type = "ranged"
         unitObject1.armor[1].value = 0
+    }else{}
+    //
+       if(unitObject2.armor.length == 0){//unit2 add armor values and type if object does not have any
+        unitObject2.armor = []
+        unitObject2.armor[0] = {}
+        unitObject2.armor[0].type = "ranged"
+        unitObject2.armor[0].value = 0
+        unitObject2.armor[1] = {}
+        unitObject2.armor[1].type = "melee"
+        unitObject2.armor[1].value = 0
+    }
+    else if(unitObject2.armor.findIndex(x=>x.type === 'ranged') > 0 && !unitObject2.armor.findIndex(x=>x.type === 'melee') < 0){
+        unitObject2.armor = []
+        unitObject2.armor[1] = {}
+        unitObject2.armor[1].type = "melee"
+        unitObject2.armor[1].value = 0
+    }
+    else if(unitObject2.armor.findIndex(x=>x.type === 'melee') > 0 && !unitObject2.armor.findIndex(x=>x.type === 'ranged') < 0){
+        
+        unitObject2.armor[1] = {}
+        unitObject2.armor[1].type = "ranged"
+        unitObject2.armor[1].value = 0
     }else{}
 
     //    function techEffectStringToOperator(techEffectString){
@@ -302,117 +325,184 @@ app.post('/calculate', async (request, response)=>{
        let object2IndexOfRangedArmor = unitObject2.armor.findIndex(x=>x.type === 'ranged')
        let object2IndexOfMeleeArmor = unitObject2.armor.findIndex(x=>x.type === 'melee')
 
-       console.log('BEFORE')
-       console.log('unitObject1.weapons.damage', unitObject1.weapons[0].damage)
-       console.log('unitObject1.armor[object1IndexOfRangedArmor].value', unitObject1.armor[object1IndexOfRangedArmor].value)
-       console.log('unitObject1.armor[object1IndexOfMeleeArmor].value', unitObject1.armor[object1IndexOfMeleeArmor].value)
-       console.log('unitObject1.hitpoints', unitObject1.hitpoints)
-       console.log('ARMOR INDEXS')
-       console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
-       console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
-       console.log('+1 melee result', unitObject1.armor[object1IndexOfMeleeArmor].value)
-       console.log('+1 melee result', unitObject1.armor[object1IndexOfMeleeArmor].value + 1)
+        // console.log('BEFORE') //test attribute adjustments
+        // console.log(unitObject2)
+    //    console.log('unitObject1.weapons.damage', unitObject1.weapons[0].damage)
+    //    console.log('unitObject1.armor[object1IndexOfRangedArmor].value', unitObject1.armor[object1IndexOfRangedArmor].value)
+    //    console.log('unitObject1.armor[object1IndexOfMeleeArmor].value', unitObject1.armor[object1IndexOfMeleeArmor].value)
+    //    console.log('unitObject1.hitpoints', unitObject1.hitpoints)
+    //    console.log('ARMOR INDEXS')
+    //    console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
+    //    console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
+    //    console.log('+1 melee result', unitObject1.armor[object1IndexOfMeleeArmor].value)
+    //    console.log('+1 melee result', unitObject1.armor[object1IndexOfMeleeArmor].value + 1)
 
        for(eachTechObject of tech1Array){//iterates through each select tech
         for(effectObject of eachTechObject.effects){//iterates through each tech effect
-            console.log('CONSOLE.LOG')
-            console.log("effectObject.effect", effectObject.effect)
-            console.log('unitObject1.weapons[0].damage', unitObject1.weapons[0].damage)
-            console.log('effectObject.value', effectObject.value)
+            // console.log('CONSOLE.LOG')
+            // console.log("effectObject.effect", effectObject.effect)
+            // console.log('unitObject1.weapons[0].damage', unitObject1.weapons[0].damage)
+            // console.log('effectObject.value', effectObject.value)
             
             if(effectObject.property == "rangedAttack" && unitObject1.weapons[0].type == "ranged"){//dont need to iterate through unitObject weapons because a unit only has one weapon type
                 unitObject1.weapons[0].damage = maths(effectObject.effect, unitObject1.weapons[0].damage, effectObject.value)
             }
-            if(effectObject.property == "meleeAttack" && unitObject1.weapons[0].type == "melee"){
+            else if(effectObject.property == "meleeAttack" && unitObject1.weapons[0].type == "melee"){
                 unitObject1.weapons[0].damage = maths(effectObject.effect, unitObject1.weapons[0].damage, effectObject.value)
             }
-            if(effectObject.property == "rangedArmor" && unitObject1.armor[object1IndexOfRangedArmor].type === "ranged"){
+            else if(effectObject.property == "rangedArmor" && unitObject1.armor[object1IndexOfRangedArmor].type === "ranged"){
                 unitObject1.armor[object1IndexOfRangedArmor].value = maths(effectObject.effect, unitObject1.armor[object1IndexOfRangedArmor].value, effectObject.value)
             }
-            if(effectObject.property == "meleeArmor" && unitObject1.armor[object1IndexOfMeleeArmor].type == "melee"){
+            else if(effectObject.property == "meleeArmor" && unitObject1.armor[object1IndexOfMeleeArmor].type == "melee"){
                 unitObject1.armor[object1IndexOfMeleeArmor].value = maths(effectObject.effect, unitObject1.armor[object1IndexOfMeleeArmor].value, effectObject.value)
             }
-            if(effectObject.property == "hitpoints"){
+            else if(effectObject.property == "hitpoints"){
               unitObject1.hitpoints = maths(effectObject.effect, unitObject1.hitpoints, effectObject.value)
             }
-            if(effectObject.property == "attackSpeed"){
+           else if(effectObject.property == "attackSpeed"){
                 unitObject1.weapons[0].speed = maths(effectObject.effect, unitObject1.weapons[0].speed, effectObject.value)
             }
-            if(effectObject.property == "siegeAttack"){
+           else if(effectObject.property == "siegeAttack"){
                 unitObject1.weapons[0].damage = maths(effectObject.effect, unitObject1.weapons[0].damage, effectObject.value)
+            }
+            
+        }
+        //unit 2
+       }
+       for(eachTechObject of tech2Array){//iterates through each select tech
+        for(effectObject of eachTechObject.effects){//iterates through each tech effect
+            // console.log('CONSOLE.LOG')
+            // console.log("effectObject.effect", effectObject.effect)
+            // console.log('unitObject2.weapons[0].damage', unitObject2.weapons[0].damage)
+            // console.log('effectObject.value', effectObject.value)
+            
+            if(effectObject.property == "rangedAttack" && unitObject2.weapons[0].type == "ranged"){//dont need to iterate through unitObject weapons because a unit only has one weapon type
+                unitObject2.weapons[0].damage = maths(effectObject.effect, unitObject2.weapons[0].damage, effectObject.value)
+            }
+            else if(effectObject.property == "meleeAttack" && unitObject2.weapons[0].type == "melee"){
+                unitObject2.weapons[0].damage = maths(effectObject.effect, unitObject2.weapons[0].damage, effectObject.value)
+            }
+           else if(effectObject.property == "rangedArmor" && unitObject2.armor[object2IndexOfRangedArmor].type === "ranged"){
+                unitObject2.armor[object2IndexOfRangedArmor].value = maths(effectObject.effect, unitObject2.armor[object2IndexOfRangedArmor].value, effectObject.value)
+            }
+           else if(effectObject.property == "meleeArmor" && unitObject2.armor[object2IndexOfMeleeArmor].type == "melee"){
+                unitObject2.armor[object2IndexOfMeleeArmor].value = maths(effectObject.effect, unitObject2.armor[object2IndexOfMeleeArmor].value, effectObject.value)
+            }
+           else if(effectObject.property == "hitpoints"){
+              unitObject2.hitpoints = maths(effectObject.effect, unitObject2.hitpoints, effectObject.value)
+            }
+           else if(effectObject.property == "attackSpeed"){
+                unitObject2.weapons[0].speed = maths(effectObject.effect, unitObject2.weapons[0].speed, effectObject.value)
+            }
+           else if(effectObject.property == "siegeAttack"){
+                unitObject2.weapons[0].damage = maths(effectObject.effect, unitObject2.weapons[0].damage, effectObject.value)
             }
             
         }
         
        }
-       //TEST THAT TECH IS APPLIED
-       console.log('AFTER')
-       console.log('unitObject1.weapons.damage', unitObject1.weapons[0].damage)
-       console.log('unitObject1.armor[object1IndexOfRangedArmor].value', unitObject1.armor[object1IndexOfRangedArmor].value)
-       console.log('unitObject1.armor[object1IndexOfMeleeArmor].value', unitObject1.armor[object1IndexOfMeleeArmor].value)
-       console.log('unitObject1.hitpoints', unitObject1.hitpoints)
-       console.log('ARMOR INDEXS')
-       console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
-       console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
-
-       const teamOneHitpoints = unitObject1.hitpoints * request.body.numberOfUnits1
+    //    //TEST THAT TECH IS APPLIED
+    //    console.log('AFTER') //test attribute adjustments
+    //    console.log('unitObject1.weapons.damage', unitObject1.weapons[0].damage)
+    //    console.log('unitObject1.armor[object1IndexOfRangedArmor].value', unitObject1.armor[object1IndexOfRangedArmor].value)
+    //    console.log('unitObject1.armor[object1IndexOfMeleeArmor].value', unitObject1.armor[object1IndexOfMeleeArmor].value)
+    //    console.log('unitObject1.hitpoints', unitObject1.hitpoints)
+    //    console.log('ARMOR INDEXS')
+    //    console.log('object1IndexOfRangedArmor',object1IndexOfRangedArmor)
+    //    console.log('object1IndexOfMeleeArmor',object1IndexOfMeleeArmor)
+       const numberOfUnits1 = request.body.numberOfUnits1 ? request.body.numberOfUnits1 : 1
+       const teamOneHitpoints = unitObject1.hitpoints * numberOfUnits1
        const teamOneDamage = unitObject1.weapons[0].damage 
        const teamOneAttackSpeed = unitObject1.weapons[0].speed
-       const teamOneMeleeArmor = unitObject1.armor[object1IndexOfMeleeArmor].value
+       //const teamOneMeleeArmor = unitObject1.armor[object1IndexOfMeleeArmor].value
        const teamOneRangedArmor = unitObject1.armor[object1IndexOfRangedArmor].value
        let teamOneWeaponModifier = 0
        let teamOneRelevantArmor = 0
-
-       const teamOTwoHitpoints = unitObject2.hitpoints * request.body.numberOfUnits2
+       
+       const numberOfUnits2 = request.body.numberOfUnits2 ? request.body.numberOfUnits2 : 1
+       const teamTwoHitpoints = unitObject2.hitpoints * numberOfUnits2
        const teamTwoDamage = unitObject2.weapons[0].damage
        const teamTwoAttackSpeed = unitObject2.weapons[0].speed
-       const teamTwoMeleeArmor = unitObject2.armor[object1IndexOfMeleeArmor].value
-       const teamTwoRangedArmor = unitObject2.armor[object1IndexOfRangedArmor].value
+       //const teamTwoMeleeArmor = unitObject2.armor[object2IndexOfMeleeArmor].value
+       const teamTwoRangedArmor = unitObject2.armor[object2IndexOfRangedArmor].value
        let teamTwoWeaponModifier = 0
        let teamTwoRelevantArmor = 0
        
 
        
        //check if weapon modifier should be used
-       if(unitObject1.weapons[0].modifiers[0].target.class[0].every((unitClass)=>unitObject2.displayClasses[0].toLowerCase().includes(unitClass))){
+       if(unitObject1.weapons[0].modifiers && unitObject1.weapons[0].modifiers[0].target.class[0].every((unitClass)=>unitObject2.displayClasses[0].toLowerCase().includes(unitClass))){
         teamOneWeaponModifier = unitObject1.weapons[0].modifiers.value
        }
-       if(unitObject2.weapons[0].modifiers[0].target.class[0].every((unitClass)=>unitObject1.displayClasses[0].toLowerCase().includes(unitClass))){
+       else{
+        teamOneWeaponModifier = 0
+       }
+       if(unitObject2.weapons[0].modifiers && unitObject2.weapons[0].modifiers[0].target.class[0].every((unitClass)=>unitObject1.displayClasses[0].toLowerCase().includes(unitClass))){
         teamTwoWeaponModifier = unitObject2.weapons[0].modifiers.value
        }
+       else{
+        teamTwoWeaponModifier = 0
+       }
        //find relevant armor unit 1
-       if(unitObject1.weapons.type == 'ranged' && unitObject2.armor.length > 0 && object2IndexOfRangedArmor > -1){
+       if(unitObject1.weapons[0].type == 'ranged' && unitObject2.armor.length > 0 && object2IndexOfRangedArmor > -1){
         teamTwoRelevantArmor = unitObject2.armor[object2IndexOfRangedArmor].value
        }
-       if(unitObject1.weapons.type == 'melee' && unitObject2.armor.length > 0 && object2IndexOfMeleeArmor > -1){
+       else if(unitObject1.weapons[0].type == 'melee' && unitObject2.armor.length > 0 && object2IndexOfMeleeArmor > -1){
         teamTwoRelevantArmor = unitObject2.armor[object2IndexOfMeleeArmor].value
        }
        // unit 2
-       if(unitObject2.weapons.type == 'ranged' && unitObject1.armor.length > 0 && object1IndexOfRangedArmor > -1){
+       if(unitObject2.weapons[0].type == 'ranged' && unitObject1.armor.length > 0 && object1IndexOfRangedArmor > -1){
         teamOneRelevantArmor = unitObject1.armor[object1IndexOfRangedArmor].value
        }
-       if(unitObject2.weapons.type == 'melee' && unitObject1.armor.length > 0 && object1IndexOfRangedArmor > -1){
+       else if(unitObject2.weapons[0].type == 'melee' && unitObject1.armor.length > 0 && object1IndexOfRangedArmor > -1){
         teamOneRelevantArmor = unitObject1.armor[object1IndexOfMeleeArmor].value
        }
+       
+       //final calculation
+       const teamOneTrueDamage = ((teamOneDamage + teamOneWeaponModifier - teamTwoRelevantArmor) * numberOfUnits1) / teamOneAttackSpeed
+       const teamTwoTrueDamage = ((teamTwoDamage  + teamTwoWeaponModifier - teamOneRelevantArmor) * numberOfUnits2) / teamTwoAttackSpeed
 
-       const teamOneTrueDamage = ((teamOneDamage + teamOneWeaponModifier - teamTwoRelevantArmor) * request.body.numberOfUnits1) / teamOneAttackSpeed
-       const teamTwoTrueDamage = ((teamTwoDamage  + teamTwoWeaponModifier - teamOneRelevantArmor) * request.body.numberOfUnits2) / teamTwoAttackSpeed
-
-       const teamOneTimeToKillTeamTwo = teamTwoHitpoints * teamOneTrueDamage
-       const teamTwoTimeToKillTeamOne = teamOneHitpoints * teamTwoTrueDamage
+       const teamOneTimeToKillTeamTwo = teamTwoHitpoints / teamOneTrueDamage
+       const teamTwoTimeToKillTeamOne = teamOneHitpoints / teamTwoTrueDamage
+       console.log('teamOneDamage', teamOneDamage)
+       console.log('teamTwoDamage', teamTwoDamage)
+       console.log('teamOneWeaponModifier', teamOneWeaponModifier)
+       console.log('teamTwoWeaponModifier', teamTwoWeaponModifier)
+       console.log('teamOneRelevantArmor', teamOneRelevantArmor) 
+       console.log('teamTwoRelevantArmor', teamTwoRelevantArmor) 
+       console.log('request.body.numberOfUnits1', request.body.numberOfUnits1)
+       console.log('request.body.numberOfUnits2', request.body.numberOfUnits2)
+       console.log('teamOoneAttackSpeed', teamOneAttackSpeed)
+       console.log('teamTwoAttackSpeed', teamTwoAttackSpeed)
+       console.log('teamOneTrueDamage', teamOneTrueDamage)
+       console.log('teamTwoTrueDamage', teamTwoTrueDamage)
+       console.log('teamOneTimeToKillTeamTwo', teamOneTimeToKillTeamTwo)
+       console.log('teamTwoTimeToKillTeamOne', teamTwoTimeToKillTeamOne)
        let winningUnit
        let losingUnit
-       
+
        if(teamOneTimeToKillTeamTwo < teamTwoTimeToKillTeamOne){
         winningUnit = unitObject1 
         losingUnit = unitObject2
        }
         
-       if(teamOneTimeToKillTeamTwo < teamTwoTimeToKillTeamOne){
+       else if(teamOneTimeToKillTeamTwo > teamTwoTimeToKillTeamOne){
         winningUnit = unitObject2
         losingUnit = unitObject1
        }
+       else{
         
+       }
+        
+       const result = {
+        winningUnit,
+        losingUnit
+       }
+       console.log("unitObject1", unitObject1)
+       console.log("unitObject2", unitObject2)
+       console.log('winningUnit', winningUnit)
+       console.log('losingUnit', losingUnit)
+       response.json(result)
 
        //let techEffectOperator
     //    for(i=0;i<tech1Array.length;i++){

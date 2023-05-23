@@ -432,6 +432,9 @@ async function submit(){
             'numberOfUnits2' : document.getElementById('numberTwo').value
         })
     })
+    const result = await requestFromMainJS.json()
+
+    console.log("submit result", result)
 }     
 
 document.querySelector('#submit').addEventListener('click', submit)
