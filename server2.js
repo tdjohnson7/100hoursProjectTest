@@ -133,7 +133,7 @@
 //         for(i=0;i<arrayOfTeamTwoObjects.length;i++){
 //             attackSpeedArrayTeam2.push(arrayOfTeamTwoObjects[i].weapons[0].speed)
 //         }
-//         //get unit names
+//         //get unit nam
 //         for(i=0;i<arrayOfTeamOneObjects.length;i++){
 //             team1NamesOnlyArray.push(arrayOfTeamOneObjects[i].id)
 //         }
