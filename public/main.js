@@ -435,6 +435,16 @@ async function submit(){
     const result = await requestFromMainJS.json()
 
     console.log("submit result", result)
+
+    result.innerHTML += "<section> </section>"
 }     
 
 document.querySelector('#submit').addEventListener('click', submit)
+
+const test2 = document.querySelector('#test')
+const sectionToHide = document.querySelector('#sectionToHide')
+const test = () => {
+ sectionToHide.classList.toggle('hidden')   
+}
+
+test2.addEventListener('click', test)

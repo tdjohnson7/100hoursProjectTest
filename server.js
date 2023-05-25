@@ -496,7 +496,23 @@ app.post('/calculate', async (request, response)=>{
         
        const result = {
         winningUnit,
-        losingUnit
+        losingUnit,
+        numberOfUnits1,
+        teamOneHitpoints,
+        teamOneDamage,
+        teamOneAttackSpeed,
+        teamOneWeaponModifier,
+        teamOneRelevantArmor,
+        teamOneTrueDamage,
+        teamOneTimeToKillTeamTwo,
+        numberOfUnits2,
+        teamTwoHitpoints,
+        teamTwoDamage,
+        teamTwoAttackSpeed,
+        teamTwoWeaponModifier,
+        teamTwoRelevantArmor,
+        teamTwoTrueDamage,
+        teamTwoTimeToKillTeamOne,
        }
        console.log("unitObject1", unitObject1)
        console.log("unitObject2", unitObject2)
