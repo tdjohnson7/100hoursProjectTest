@@ -102,7 +102,7 @@
 //             arrayOfTeamTwoObjects.push(tempVariable)
 //         }
        
-//         //hitpoints
+//         //hitpoint
 //         for(i=0;i<arrayOfTeamOneObjects.length;i++){
 //             hitpointsArrayTeam1.push(arrayOfTeamOneObjects[i].hitpoints)
 //         }
