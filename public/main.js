@@ -433,18 +433,42 @@ async function submit(){
         })
     })
     const result = await requestFromMainJS.json()
-
+    
     console.log("submit result", result)
+    let finalResult = document.querySelector('#finalResult')
+    finalResult.innerHTML = `<section>
+        <h1 id="test">Winning Unit<h1>
+        <h2> Age ${result.winningUnit.age} ${result.winningUnit.fullNameOfCiv} ${result.winningUnit.name}</h2>
+        <section id="sectionToHide" class="">
+            <ul>
+                <li>Hitpoints: ${result.winningUnit.hitpoints}, Number Of Units: ${result.winningTeam.numberOfUnits}, Total Team Hitpoints: ${result.winningTeam.hitpoints}</li>
+                <li>Attack Damage: ${result.winningUnit.weapons[0].damage}, Attack Type: ${result.winningUnit.weapons[0].type}, Attack Speed: ${result.winningUnit.weapons[0].speed}, Damage Modifiers: ${result.winningTeam.weaponModifier}</li>
+                <li>Armor: ${result.winningUnit.releventArmor}, Type: ${result.winningUnit.releventArmorType}</li>
+                <li>True Damage: ${result.winningTeam.trueDamage} </li>
+                <li>Time To Kill The Other Team ${result.timeToKillOtherTeam}</li>
+            </ul>
+        </section>
+        <h1 id="test2"></h1>
+        <h2> Age ${result.losingUnit.age} ${result.losingUnit.fullNameOfCiv} ${result.losingUnit.name}</h2>
+        <section id="sectionToHide" class="">
+            <ul>
+                <li>Hitpoints: ${result.losingUnit.hitpoints}, Number Of Units: ${result.losingTeam.numberOfUnits}, Total Team Hitpoints: ${result.losingTeam.hitpoints}</li>
+                <li>Attack Damage: ${result.losingUnit.weapons[0].damage}, Attack Type: ${result.losingUnit.weapons[0].type}, Attack Speed: ${result.losingUnit.weapons[0].speed}, Damage Modifiers: ${result.losingTeam.weaponModifier}</li>
+                <li>Armor: ${result.losingTeam.releventArmor}, Type: ${result.losingTeam.releventArmorType}</li>
+                <li>True Damage: ${result.losingTeam.trueDamage} </li>
+                <li>Time To Kill The Other Team ${result.losingTeam.timeToKillOtherTeam}</li>`
 
-    result.innerHTML += "<section> </section>"
+    
+    
+    
 }     
 
 document.querySelector('#submit').addEventListener('click', submit)
 
-const test2 = document.querySelector('#test')
+const test = document.querySelector('#test')
 const sectionToHide = document.querySelector('#sectionToHide')
-const test = () => {
+const testFunction = () => {
  sectionToHide.classList.toggle('hidden')   
 }
 
-test2.addEventListener('click', test)
+test.addEventListener('click', testFunction)

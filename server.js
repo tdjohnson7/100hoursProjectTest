@@ -225,6 +225,45 @@ app.post('/calculate', async (request, response)=>{
         
         //console.log("unitObject1", unitObject1)
         //console.log("unitObject2", unitObject2)
+        unitObject1.civs = [request.body.civ1]
+        unitObject2.civs = [request.body.civ2]
+        unitObject1.fullNameOfCiv = ''
+        unitObject2.fullNameOfCiv = ''
+        
+        let attackFullNameOfCivToObject = (object) => {
+            if(object.civs == 'ab'){
+                 object.fullNameOfCiv = 'Abbasid'
+            }
+            if(object.civs == 'ch'){
+                 object.fullNameOfCiv = 'Chinese'
+            }
+            if(object.civs == 'hr'){
+                 object.fullNameOfCiv = 'Holy Roman Empire'
+            }
+            if(object.civs == 'en'){
+                 object.fullNameOfCiv = 'English'
+            }
+            if(object.civs == 'de'){
+                 object.fullNameOfCiv = 'Delhi Sultanate'
+            }
+            if(object.civs == 'fr'){
+                 object.fullNameOfCiv = 'French'
+            }
+            if(object.civs == 'mo'){
+                 object.fullNameOfCiv = 'Mongols'
+            }
+            if(object.civs == 'ru'){
+                 object.fullNameOfCiv = 'Rus'
+            }
+            if(object.civs == 'ot'){
+                 object.fullNameOfCiv = 'Ottoman'
+            }
+            if(object.civs == 'ma'){
+                 object.fullNameOfCiv = 'Malians'
+            }
+        }
+        attackFullNameOfCivToObject(unitObject1)
+        attackFullNameOfCivToObject(unitObject2)
 
         let tech1Array = []
         for(i=0;i<request.body.techs1.length;i++){
@@ -446,18 +485,26 @@ app.post('/calculate', async (request, response)=>{
        //find relevant armor unit 1
        if(unitObject1.weapons[0].type == 'ranged' && unitObject2.armor.length > 0 && object2IndexOfRangedArmor > -1){
         teamTwoRelevantArmor = unitObject2.armor[object2IndexOfRangedArmor].value
+        unitObject2.relevantArmorType = 'ranged'
        }
        else if(unitObject1.weapons[0].type == 'melee' && unitObject2.armor.length > 0 && object2IndexOfMeleeArmor > -1){
         teamTwoRelevantArmor = unitObject2.armor[object2IndexOfMeleeArmor].value
+        unitObject2.relevantArmorType = 'melee'
+       }else{
+        unitObject2.relevantArmorType = ''
        }
        // unit 2
        if(unitObject2.weapons[0].type == 'ranged' && unitObject1.armor.length > 0 && object1IndexOfRangedArmor > -1){
         teamOneRelevantArmor = unitObject1.armor[object1IndexOfRangedArmor].value
+        unitObject1.relevantArmorType = 'ranged'
        }
        else if(unitObject2.weapons[0].type == 'melee' && unitObject1.armor.length > 0 && object1IndexOfRangedArmor > -1){
         teamOneRelevantArmor = unitObject1.armor[object1IndexOfMeleeArmor].value
+        unitObject1.relevantArmorType = 'melee'
+       }else{
+        unitObject1.relevantArmorType = ''
        }
-       
+    
        //final calculation
        const teamOneTrueDamage = ((teamOneDamage + teamOneWeaponModifier - teamTwoRelevantArmor) * numberOfUnits1) / teamOneAttackSpeed
        const teamTwoTrueDamage = ((teamTwoDamage  + teamTwoWeaponModifier - teamOneRelevantArmor) * numberOfUnits2) / teamTwoAttackSpeed
@@ -480,39 +527,74 @@ app.post('/calculate', async (request, response)=>{
        console.log('teamTwoTimeToKillTeamOne', teamTwoTimeToKillTeamOne)
        let winningUnit
        let losingUnit
+       let winningTeam
+       let losingTeam
+       let tieStatement = ""
 
        if(teamOneTimeToKillTeamTwo < teamTwoTimeToKillTeamOne){
         winningUnit = unitObject1 
         losingUnit = unitObject2
+        winningTeam = {
+            numberOfUnits: numberOfUnits1,
+            hitpoints: teamOneHitpoints,
+            damage: teamOneDamage,
+            speed: teamOneAttackSpeed,
+            weaponModifier: teamOneWeaponModifier,
+            relevantArmor: teamOneRelevantArmor,
+            trueDamage: teamOneTrueDamage,
+            timeToKillOtherTeam: teamOneTimeToKillTeamTwo
+           }
+           losingTeam = {
+            numberOfUnits: numberOfUnits2,
+            hitpoints: teamTwoHitpoints,
+            damage: teamTwoDamage,
+            speed: teamTwoAttackSpeed,
+            weaponModifier: teamTwoWeaponModifier,
+            relevantArmor: teamTwoRelevantArmor,
+            trueDamage: teamTwoTrueDamage,
+            timeToKillOtherTeam : teamTwoTimeToKillTeamOne,
+           }
+           
        }
         
        else if(teamOneTimeToKillTeamTwo > teamTwoTimeToKillTeamOne){
         winningUnit = unitObject2
         losingUnit = unitObject1
+        winningTeam = {
+            numberOfUnits: numberOfUnits2,
+            hitpoints: teamTwoHitpoints,
+            damage: teamTwoDamage,
+            speed: teamTwoAttackSpeed,
+            weaponModifier: teamTwoWeaponModifier,
+            relevantArmor: teamTwoRelevantArmor,
+            trueDamage: teamTwoTrueDamage,
+            timeToKillOtherTeam : teamTwoTimeToKillTeamOne,
+           }
+        losingTeam = {
+            numberOfUnits: numberOfUnits1,
+            hitpoitns: teamOneHitpoints,
+            damage: teamOneDamage,
+            speed: teamOneAttackSpeed,
+            weaponModifier: teamOneWeaponModifier,
+            relevantArmor: teamOneRelevantArmor,
+            trueDamage: teamOneTrueDamage,
+            timeToKillOtherTeam: teamOneTimeToKillTeamTwo
+           }
+           
        }
        else{
-        
+        tieStatement = 'No blood was shed on this day as there is a tie. Please try another combination'
        }
+
+       
         
        const result = {
         winningUnit,
         losingUnit,
-        numberOfUnits1,
-        teamOneHitpoints,
-        teamOneDamage,
-        teamOneAttackSpeed,
-        teamOneWeaponModifier,
-        teamOneRelevantArmor,
-        teamOneTrueDamage,
-        teamOneTimeToKillTeamTwo,
-        numberOfUnits2,
-        teamTwoHitpoints,
-        teamTwoDamage,
-        teamTwoAttackSpeed,
-        teamTwoWeaponModifier,
-        teamTwoRelevantArmor,
-        teamTwoTrueDamage,
-        teamTwoTimeToKillTeamOne,
+        winningTeam,
+        losingTeam,
+        tech1Array,
+        tech2Array
        }
        console.log("unitObject1", unitObject1)
        console.log("unitObject2", unitObject2)
