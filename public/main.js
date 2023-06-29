@@ -436,39 +436,70 @@ async function submit(){
     
     console.log("submit result", result)
     let finalResult = document.querySelector('#finalResult')
-    finalResult.innerHTML = `<section>
-        <h1 id="test">Winning Unit<h1>
-        <h2> Age ${result.winningUnit.age} ${result.winningUnit.fullNameOfCiv} ${result.winningUnit.name}</h2>
-        <section id="sectionToHide" class="">
-            <ul>
+    if(!result.tieStatement){
+    finalResult.innerHTML = 
+    `<section id='resultSection'>
+        <h1 id='result'>Result</h1>
+        <h1 class="resultUnitHeader">Winning Unit</h1>
+        <h2> ${result.winningTeam.team} Age ${result.winningUnit.age} ${result.winningUnit.fullNameOfCiv} ${result.winningUnit.name}</h2>
+        <a id="icon1" onlick="unhideWinningUnitSection()"></a>
+        <section>
+            <ul id="sectionToHide1" class="hiddenElement">
                 <li>Hitpoints: ${result.winningUnit.hitpoints}, Number Of Units: ${result.winningTeam.numberOfUnits}, Total Team Hitpoints: ${result.winningTeam.hitpoints}</li>
                 <li>Attack Damage: ${result.winningUnit.weapons[0].damage}, Attack Type: ${result.winningUnit.weapons[0].type}, Attack Speed: ${result.winningUnit.weapons[0].speed}, Damage Modifiers: ${result.winningTeam.weaponModifier}</li>
-                <li>Armor: ${result.winningUnit.releventArmor}, Type: ${result.winningUnit.releventArmorType}</li>
+                <li>Armor: ${result.winningTeam.relevantArmor}, Type: ${result.winningUnit.relevantArmorType}</li>
                 <li>True Damage: ${result.winningTeam.trueDamage} </li>
-                <li>Time To Kill The Other Team ${result.timeToKillOtherTeam}</li>
+                <li>Time To Kill The Other Team ${result.winningTeam.timeToKillOtherTeam}</li>
             </ul>
         </section>
-        <h1 id="test2"></h1>
-        <h2> Age ${result.losingUnit.age} ${result.losingUnit.fullNameOfCiv} ${result.losingUnit.name}</h2>
-        <section id="sectionToHide" class="">
-            <ul>
+        <h1 class="resultUnitHeader">Losing Unit</h1>
+        <h2> ${result.losingTeam.team} Age ${result.losingUnit.age} ${result.losingUnit.fullNameOfCiv} ${result.losingUnit.name}</h2>
+        <button id="icon2" onclick = "unhideLosingUnitSection"></button>
+        <section >
+            <ul id="sectionToHide2" class="hiddenElement">
                 <li>Hitpoints: ${result.losingUnit.hitpoints}, Number Of Units: ${result.losingTeam.numberOfUnits}, Total Team Hitpoints: ${result.losingTeam.hitpoints}</li>
                 <li>Attack Damage: ${result.losingUnit.weapons[0].damage}, Attack Type: ${result.losingUnit.weapons[0].type}, Attack Speed: ${result.losingUnit.weapons[0].speed}, Damage Modifiers: ${result.losingTeam.weaponModifier}</li>
-                <li>Armor: ${result.losingTeam.releventArmor}, Type: ${result.losingTeam.releventArmorType}</li>
+                <li>Armor: ${result.losingTeam.relevantArmor}, Type: ${result.losingUnit.relevantArmorType}</li>
                 <li>True Damage: ${result.losingTeam.trueDamage} </li>
-                <li>Time To Kill The Other Team ${result.losingTeam.timeToKillOtherTeam}</li>`
+                <li>Time To Kill The Other Team ${result.losingTeam.timeToKillOtherTeam}</li>
+            </ul>
+        </section>
+    </section>`
+    }else if(result.tieStatement){
+        finalResult.innerHTML = `<section id="resultSection">
+        <h1 id='result'>Result</h1>
+            <h1>${result.tieStatement}</h1></section>`
+    }
+}    
 
-    
-    
-    
-}     
-
-document.querySelector('#submit').addEventListener('click', submit)
-
-const test = document.querySelector('#test')
-const sectionToHide = document.querySelector('#sectionToHide')
-const testFunction = () => {
- sectionToHide.classList.toggle('hidden')   
+ function focusResult(){
+    location.assign('#finalResult')
+//     document.getElementById('selectCivNumberOne').focus({preventScroll:false})
+//window.scrollTo({top: 0, behavior: 'smooth'})
 }
 
-test.addEventListener('click', testFunction)
+document.querySelector('#section')
+document.querySelector('#submit').addEventListener('click', () => {focusResult(), submit()})
+
+
+
+function unhideWinningUnitSection(){
+    document.querySelector('#sectionToHide1').classList.remove("showElement")
+    document.querySelector('#sectionToHide1').classList.toggle("hiddenElement")
+    console.log('hello1')
+}
+function unhideLosingUnitSection(){
+    document.querySelector('#sectionToHide2').classList.toogle("showElement")
+    document.querySelector('#sectionToHide2').classList.remove("hiddenElement")
+    console.log('hello2')
+}
+document.querySelector('#icon1').addEventListener('click',unhideWinningUnitSection)
+document.querySelector('#icon2').addEventListener('click',unhideLosingUnitSection)
+
+// const test = document.querySelector('#test')
+// const sectionToHide = document.querySelector('#sectionToHide')
+// const testFunction = () => {
+//  sectionToHide.classList.toggle('hidden')   
+// }
+
+// test.addEventListener('click', testFunction)

@@ -1,5 +1,8 @@
 *{
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 body {
@@ -7,7 +10,7 @@ body {
     
     color: white;
     background-color: black;
-    background: linear-gradient(70deg, black, grey);
+    /* background: linear-gradient(70deg, black, grey); */
     background-repeat: no-repeat;
     
 
@@ -19,25 +22,34 @@ form{
 }
 
 section{
-    
+    display: flex;
+    justify-content:center;
+    flex-wrap: wrap;
     padding: 15px;
-    
+    margin: 5px;
     width: 100%;
     
+    
+}
+section > section{
+    padding: 5px;
 }
 
 
-#divOne{
-    width: 50%;
-    
+#divOne, #resultSection{
+    width: 80%;
+    padding: 5px;
     margin: 10px;
     
-    
+    display: flex;
     justify-content: center;
     border: grey 5px solid;
-    max-width:fit-content;
-    min-width:fit-content;
+    
     border-radius: 10px;
+    background-color: rgb(36, 36, 36);
+}
+#divOne * , #resultSection *{
+    text-align: center;
 }
 
 #divTwo{
@@ -46,9 +58,11 @@ section{
     flex-wrap: wrap;
     justify-content: center;
 }
-#divThree{
+.divThree{
     display: flex;
     justify-content: center;
+    text-align: center;
+    width: 80%;
 }
 
 
@@ -60,11 +74,100 @@ section{
 }
 
 h1, h2{
-    letter-spacing: 5px;
-    border: 2px grey solid;
+    
+    /* border: 2px grey solid; */
     font-weight: 200;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
 }
 
 .hidden{
     display: none;
+}
+
+input, select, button{
+    padding: 5px;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 25px;
+    width: fit-content;
+}
+
+input[type='number'],select,option{
+    font-size: 25px;
+
+}
+
+
+label{
+    font-size: 25px;
+    
+    
+    
+}
+
+#result{
+    text-align: center;
+}
+button{
+    padding:20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 35px;
+    border-radius: 25px;
+}
+#result, #finalresult{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 50px;
+    border: white 5px solid;
+    justify-content: center;
+    width: fit-content;
+}
+#finalresult>h1{
+    font-size: 35px;
+}
+#test,#test2{
+
+}
+li{
+    /* letter-spacing: 10px; */
+}
+a{
+    text-decoration: none;
+    color: black
+}
+
+.divThree h1{
+    font-size: 60px;
+    
+}
+.hiddenElement{
+    display: none;
+}
+
+.showElement{
+    display: flex;
+}
+#winningUnit, #losingUnit{
+
+}
+.resultUnitHeader{
+    font-size: 40px;
+}
+#icon1, #icon2{
+    width: 50px;
+    height: 50px;
+    background-image: url(../images/downwardArror.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    align-self: center;
+
+}
+
+
+@media screen and (max-width :500px ) {
+    section{
+        width: 90%;
+    }
 }

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Template</title>
     <link rel="stylesheet" href="/style.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    
     
     
 </head>
@@ -24,13 +26,15 @@
 <li>git commit -m "changes"</li>
 <li>git push heroku main</li>
 </ul> -->
-<div id="divThree">
-    <h1>AOE4 Unit Counter Calculator</h1>
+<div class="divThree">
+    <h1 id = "focus">AOE4 Unit Counter Calculator</h1>
+    
 </div>
-<div id="divThree">
-<h2>Choose two units or two teams of units to compare</h2>
+<div class="divThree">
+<h2>Choose two units or two teams of units to compare then click submit to see which won!</h2>
 </div>
 
+    <div id="finalResult"></div>
     
         <!-- <label for="addAnotherSelectRowForTeam1"></label>
     <button id="addAnotherSelectRowForTeam1">Add Row Team1</button>
@@ -42,104 +46,121 @@
     <form action="/calculate" method="POST" name="form" id="form">
         <div id="divTwo">
             <div id="divOne">
-                <label for="selectCivNumberOne">Select a Civ</label>
+               <label for="sectionOne">Team One</label>
                 <section class="sectionOne" id="sectionOne" name="sectionOne">
-                    <select id="selectCivNumberOne" name="selectCivNumberOne" onchange="bigBoy1()">
-                        <option value="ab">Abbasid</option>
-                        <option value="ch">Chinese</option>
-                        <option value="hr">Holy Roman Empire</option>
-                        <option value="en">English</option>
-                        <option value="de">Delhi Sultanate</option>
-                        <option value="fr">French</option>
-                        <option value="mo">Mongols</option>
-                        <option value="ru">Rus</option>
-                        <option value="ot">Ottomans</option>
-                        <option value="ma">Malians</option>
-                    </select>
+                    <section>
+                        <label for="selectCivNumberOne">Select a Civ</label>
+                        <select id="selectCivNumberOne" name="selectCivNumberOne" onchange="bigBoy1()">
+                            <option value="ab">Abbasid</option>
+                            <option value="ch">Chinese</option>
+                            <option value="hr">Holy Roman Empire</option>
+                            <option value="en">English</option>
+                            <option value="de">Delhi Sultanate</option>
+                            <option value="fr">French</option>
+                            <option value="mo">Mongols</option>
+                            <option value="ru">Rus</option>
+                            <option value="ot">Ottomans</option>
+                            <option value="ma">Malians</option>
+                        </select>
+                    </section>
 
                     <br>
+                    <section>
+                        <label for="selectUnitNumberOne">Select a Unit</label>              
+                        <select id="selectUnitNumberOne" name="selectUnitNumberOne" title="optionForSelection1"       class="selectNumberOne"  onchange="agesThenTechs1()">
 
-                    <label for="selectUnitNumberOne">Select a Unit</label>              
-                    <select id="selectUnitNumberOne" name="selectUnitNumberOne" title="optionForSelection1"       class="selectNumberOne"  onchange="agesThenTechs1()">
-                        
-                        <% for(let i=0; i < info.length; i++) {%>
-                
-                            <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i] %></option>
-                            <!-- <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option> -->
+                            <% for(let i=0; i < info.length; i++) {%>
                             
-                                
-                            <% } %>       
-                
-                    </select>
+                                <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i] %></option>
+                                <!-- <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option> -->
+
+
+                                <% } %>       
+                            
+                        </select>
+                    </section>
                     <!-- to select civ -->
                     <br>
-                    <label for="selectAgeNumberOne">Choose an Age</label>
-                    <select id="selectAgeNumberOne" name="selectAgeNumberOne" title="agesForSelection1"       class="selectNumberOne"  onchange="getTechs1()">
-                        
-                            
-                
-                    </select>
+                    <section>
+                        <label for="selectAgeNumberOne">Choose an Age</label>
+                        <select id="selectAgeNumberOne" name="selectAgeNumberOne" title="agesForSelection1"   class="selectNumberOne"  onchange="getTechs1()">
+                        </select>
+                    </section>
                     <br>
 
-                    <label for="numberOne">Select a number of Units</label>
-                    <input id="numberOne" type = "number" name="numberOne" placeholder="1" value="1" min="1">
+                    <section>
+                        <label for="numberOne">Select a number of Units</label>
+                        <input id="numberOne" type = "number" name="numberOne" placeholder="1" value="1" min="1">
+                    </section>
                     
                     <br>
 
-                    <label for="techSelectOne">Select a Tech</label>
-                    <select id="techSelectOne" id="techSelectOne" multiple>
+                    <section>
+                        <label for="techSelectOne">Select a Tech</label>
+                        <select id="techSelectOne" id="techSelectOne" multiple>
+                    </section>
                         
                     </select>
                     
                 </section>
             </div>
             <div id="divOne">
-                <label for="selectCivNumberTwo">Select a Civ</label>
-                <section class="sectionOne" id="sectionOne" name="sectionOne">
-                    <select id="selectCivNumberTwo" name="selectCivNumberTwo" onchange="getUnits2(this), getAges2(this), getTechs2()">
-                        <option value="ab">Abbasid</option>
-                        <option value="ch">Chinese</option>
-                        <option value="hr">Holy Roman Empire</option>
-                        <option value="en">English</option>
-                        <option value="de">Delhi Sultanate</option>
-                        <option value="fr">French</option>
-                        <option value="mo">Mongols</option>
-                        <option value="ru">Rus</option>
-                        <option value="ot">Ottomans</option>
-                        <option value="ma">Malians</option>
-                    </select>
-
+                <label for="sectionTwo">Team Two</label>
+                <section class="sectionTwo" id="sectionTwo" name="sectionTwo">
+                    <section>
+                        <label for="selectCivNumberTwo">Select a Civ</label>
+                        <select id="selectCivNumberTwo" name="selectCivNumberTwo" onchange="getUnits2(this), getAges2(this), getTechs2()">
+                            <option value="ab">Abbasid</option>
+                            <option value="ch">Chinese</option>
+                            <option value="hr">Holy Roman Empire</option>
+                            <option value="en">English</option>
+                            <option value="de">Delhi Sultanate</option>
+                            <option value="fr">French</option>
+                            <option value="mo">Mongols</option>
+                            <option value="ru">Rus</option>
+                            <option value="ot">Ottomans</option>
+                            <option value="ma">Malians</option>
+                        </select>
+                    </section>
                     <br>
 
-                    <label for="selectUnitNumberTwo">Select a Unit</label>              
-                    <select id="selectUnitNumberTwo" name="selectUnitNumberTwo" title="optionForSelection2"       class="selectNumberTwo"  onchange="agesThenTechs2()" >
-                        
-                        <% for(let i=0; i < info.length; i++) {%>
-                
-                            <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i] %></option>
-                            <!-- <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option> -->
+                    <section>
+                        <label for="selectUnitNumberTwo">Select a Unit</label>              
+                        <select id="selectUnitNumberTwo" name="selectUnitNumberTwo" title="optionForSelection2"       class="selectNumberTwo"  onchange="agesThenTechs2()" >
+
+                            <% for(let i=0; i < info.length; i++) {%>
                             
-                                
+                                <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i] %></option>
+                                <!-- <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option> -->
+
+
                             <% } %>       
-                
-                    </select>
+                            
+                        </select>
+                    </section>
                     <!-- to select civ -->
                     <br>
-                    <label for="selectAgeNumberTwo">Choose an Age</label>
-                    <select id="selectAgeNumberTwo" name="selectAgeNumberTwo" title="agesForSelection2"       class="selectNumberOne"  onchange="getTechs2(this)" >
+                    <section>
+                        <label for="selectAgeNumberTwo">Choose an Age</label>
+                        <select id="selectAgeNumberTwo" name="selectAgeNumberTwo" title="agesForSelection2"       class="selectNumberOne"  onchange="getTechs2(this)" >
                         
                             
                 
-                    </select>
+                        </select>
+                    </section>
                     <br>
 
+                   <section>
                     <label for="numberTwo">Select a number of Units</label>
-                    <input id="numberTwo" type = "number" name="numberTwo" placeholder="1" value="1" min="1">
+                    <input id="numberTwo" type="number" name="numberTwo" placeholder="1" value="1" min="1">
+                   </section>
                     
                     <br>
 
-                    <label for="techSelectTwo">Select a Tech</label>
-                    <select id="techSelectTwo" name="techSelectTwo" multiple>
+                    <section>
+                        <label for="techSelectTwo">Select a Tech</label>
+                        <select id="techSelectTwo" name="techSelectTwo" multiple>
+                    </section>
                         
                     </select>
                     
@@ -149,10 +170,10 @@
             
         </div>
         <div id = "divFour">
-            <button id= 'submit' type="submit">Submit</button>
+            <button id= 'submit' type="submit" >Submit</button>
         </div>
-        <h1>Result</h1>
-        <div id="finalResult">
+        
+        
             
             <!-- <section>
                 <h1 id="test">test</h1>
@@ -191,9 +212,9 @@
                 <h1>result.loser</h1>
 
             </section> -->
-        </div>  
         
-        <br>
+        
+        
         
         
     </form>
@@ -206,7 +227,9 @@
     
     
 
-<script src="/main.js"></script>
+<script src="/main.js">  
+
+</script>
 
 
 </body>
