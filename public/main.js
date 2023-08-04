@@ -440,31 +440,60 @@ async function submit(){
     finalResult.innerHTML = 
     `<section id='resultSection'>
         <h1 id='result'>Result</h1>
-        <h1 class="resultUnitHeader">Winning Unit</h1>
+        <h1 class="resultUnitHeader">Winner: </h1>
         <h2> ${result.winningTeam.team} Age ${result.winningUnit.age} ${result.winningUnit.fullNameOfCiv} ${result.winningUnit.name}</h2>
-        <a id="icon1" onlick="unhideWinningUnitSection()"></a>
-        <section>
-            <ul id="sectionToHide1" class="hiddenElement">
-                <li>Hitpoints: ${result.winningUnit.hitpoints}, Number Of Units: ${result.winningTeam.numberOfUnits}, Total Team Hitpoints: ${result.winningTeam.hitpoints}</li>
-                <li>Attack Damage: ${result.winningUnit.weapons[0].damage}, Attack Type: ${result.winningUnit.weapons[0].type}, Attack Speed: ${result.winningUnit.weapons[0].speed}, Damage Modifiers: ${result.winningTeam.weaponModifier}</li>
-                <li>Armor: ${result.winningTeam.relevantArmor}, Type: ${result.winningUnit.relevantArmorType}</li>
-                <li>True Damage: ${result.winningTeam.trueDamage} </li>
-                <li>Time To Kill The Other Team ${result.winningTeam.timeToKillOtherTeam}</li>
-            </ul>
-        </section>
-        <h1 class="resultUnitHeader">Losing Unit</h1>
-        <h2> ${result.losingTeam.team} Age ${result.losingUnit.age} ${result.losingUnit.fullNameOfCiv} ${result.losingUnit.name}</h2>
-        <button id="icon2" onclick = "unhideLosingUnitSection"></button>
+        <button id="icon1" onlick="unhideWinningUnitSection"></button>
         <section >
-            <ul id="sectionToHide2" class="hiddenElement">
-                <li>Hitpoints: ${result.losingUnit.hitpoints}, Number Of Units: ${result.losingTeam.numberOfUnits}, Total Team Hitpoints: ${result.losingTeam.hitpoints}</li>
-                <li>Attack Damage: ${result.losingUnit.weapons[0].damage}, Attack Type: ${result.losingUnit.weapons[0].type}, Attack Speed: ${result.losingUnit.weapons[0].speed}, Damage Modifiers: ${result.losingTeam.weaponModifier}</li>
-                <li>Armor: ${result.losingTeam.relevantArmor}, Type: ${result.losingUnit.relevantArmorType}</li>
-                <li>True Damage: ${result.losingTeam.trueDamage} </li>
-                <li>Time To Kill The Other Team ${result.losingTeam.timeToKillOtherTeam}</li>
-            </ul>
+            <section id="sectionToHide1" class="hiddenElement">
+            <table>
+            <tr>
+                <td></td>
+                <td>Winning Unit: ${result.winningTeam.team}</td>
+                <td>Losing Unit: ${result.losingTeam.team}</td>
+            </tr>
+            <tr>
+                <td>Age/Civ/Unit Name</td>
+                <td>Age ${result.winningUnit.age} ${result.winningUnit.fullNameOfCiv} ${result.winningUnit.name}</td>
+                <td>Age ${result.losingUnit.age} ${result.losingUnit.fullNameOfCiv} ${result.losingUnit.name}</td>
+            </tr>
+            <tr>
+                <td>Hitpoints/Total Team Hitpoints</td>
+                <td>${result.winningUnit.hitpoints}/${result.winningTeam.hitpoints}</td>
+                <td>${result.losingUnit.hitpoints}/${result.losingTeam.hitpoints}</td>
+            </tr>
+            <tr>
+                <td>Number of Units</td>
+                <td>${result.winningTeam.numberOfUnits}</td>
+                <td>${result.losingTeam.numberOfUnits}</td>
+            </tr>
+            <tr>
+                <td>Attack Damage/Type/Speed/Modifiers</td>
+                <td>${result.winningUnit.weapons[0].damage}/${result.winningUnit.weapons[0].type}/${result.winningUnit.weapons[0].speed}/${result.winningTeam.weaponModifier}</td>
+                <td>${result.losingUnit.weapons[0].damage}/${result.losingUnit.weapons[0].type}/${result.losingUnit.weapons[0].speed}/${result.losingTeam.weaponModifier}</td>
+            </tr>
+            <tr>
+                <td>Armor/Type</td>
+                <td>${result.winningTeam.relevantArmor}/${result.winningUnit.relevantArmorType}</td>
+                <td>${result.losingTeam.relevantArmor}/${result.losingUnit.relevantArmorType}</td>
+            </tr>
+            <tr>
+                <td title = "((unit's attack damage + any weapon modifiers - opponent's relevant armor) * number of units) / divided by a unit's attack speed">True Damage</td>
+                <td>${result.winningTeam.trueDamage}</td>
+                <td>${result.losingTeam.trueDamage}</td>
+            </tr>
+            <tr>
+                <td title = "Opponent's total team hitpoints / true damage">Time To Kill The Other Team</td>
+                <td>${result.winningTeam.timeToKillOtherTeam} seconds</td>
+                <td>${result.losingTeam.timeToKillOtherTeam} seconds</td>
+            </tr>
+            
+        </table>
+            </section>
         </section>
+        
+        
     </section>`
+    
     }else if(result.tieStatement){
         finalResult.innerHTML = `<section id="resultSection">
         <h1 id='result'>Result</h1>
@@ -483,18 +512,21 @@ document.querySelector('#submit').addEventListener('click', () => {focusResult()
 
 
 
-function unhideWinningUnitSection(){
-    document.querySelector('#sectionToHide1').classList.remove("showElement")
-    document.querySelector('#sectionToHide1').classList.toggle("hiddenElement")
-    console.log('hello1')
+function unhideWinningUnitSection(event){
+    if(event.target.id == 'icon1'){
+        document.querySelector('#sectionToHide1').classList.toggle("hiddenElement")
+    }
 }
-function unhideLosingUnitSection(){
-    document.querySelector('#sectionToHide2').classList.toogle("showElement")
-    document.querySelector('#sectionToHide2').classList.remove("hiddenElement")
-    console.log('hello2')
+
+function unhideLosingUnitSection(event){
+    if(event.target.id == 'icon2'){
+        document.querySelector('#sectionToHide2').classList.toggle("hiddenElement")
+    }
 }
-document.querySelector('#icon1').addEventListener('click',unhideWinningUnitSection)
-document.querySelector('#icon2').addEventListener('click',unhideLosingUnitSection)
+
+document.querySelector('#finalResult').addEventListener('click',unhideWinningUnitSection)
+document.querySelector('#finalResult').addEventListener('click',unhideLosingUnitSection)
+// document.querySelector('#icon2').addEventListener('click',unhideLosingUnitSection)
 
 // const test = document.querySelector('#test')
 // const sectionToHide = document.querySelector('#sectionToHide')

@@ -164,10 +164,65 @@ a{
     align-self: center;
 
 }
+hr{
+    width: 80%;
+}
+tr{
+    width: 100%;
+}
+td{
+    display:flex;
+    text-overflow: ellipsis;
+    border: 1px solid white;
+    align-content: flex-start;
+    padding: 10px 20px;
+    text-align: center;
+    width: 25%;
+    height: 50px;
+    flex-wrap: wrap;
+    overflow-wrap: break-word;
+}
+table{
+    table-layout: fixed;
+    display:block;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* width: 100%; */
+    justify-content: flex-start;
+}
 
 
 @media screen and (max-width :500px ) {
     section{
-        width: 90%;
+        width: 100%;
+        margin: 0px;
+    }
+    section > section{
+        padding: 0px;
+    }
+    /* tr{
+        width:624px;
+    } */
+    table{width: 100%;}
+}
+
+@media screen and (min-width : 800px) {
+    #divOne, #resultSection{
+        width: 750px;
+        
     }
 }
+
+@media screen and (max-width : 850px){
+    table{
+        width:100%;
+        border-spacing: 0px;
+    }
+    td{
+        width: 20%;
+        font-size: 15px;
+        word-wrap: break-word;
+        
+    }
+}
+
