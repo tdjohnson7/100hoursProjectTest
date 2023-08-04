@@ -35,6 +35,7 @@ app.get('/', async (request, response)=>{
         //const listOfUnits = await db.collection('AOE42ndCollection').find().sort({name: 1, age:1}).toArray()
         //const listOfUnits2 = await db.collection('AOE42ndCollection').distinct("name")
         //const listOfUnits2 = await db.collection('AOE42ndCollection').find({civs: {$in:['ab']}}).distinct('name').sort({name: 1})
+        console.log('hello')
         const listOfUnits2 = await collection.distinct('name',{civs: {$in:['ab']}})
         console.log(listOfUnits2)
         const result = await listOfUnits2
