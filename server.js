@@ -9,8 +9,6 @@ require('dotenv').config()
 
 
 
-
-
 let db,
     dbConnectionString = process.env.DB_STRING,
     dbName = 'AOE4',
@@ -27,19 +25,11 @@ MongoClient.connect(dbConnectionString, {useUnifiedTopology: true, useNewUrlPars
     
     .catch(err=> console.log("ERROR connecting to DB: ", err))
 
-    
-
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({extended:true}))// in place of body-parser
 app.use(express.json())// in place of body-parser
 app.use(cors())
-
-
-//PORT = 8000
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`)
-})
 
 //renders the main page with the inputs
 
@@ -851,4 +841,9 @@ app.post('/calculate', async (request, response)=>{
 
 
 
+
+//PORT = 8000
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`)
+})
 
