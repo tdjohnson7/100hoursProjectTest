@@ -8,10 +8,7 @@ require('dotenv').config()
 // const main = require("./public/main.js") remvoed to get main.js to work
 
 
-//PORT = 8000
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`)
-})
+
 
 
 let db,
@@ -30,11 +27,19 @@ MongoClient.connect(dbConnectionString, {useUnifiedTopology: true, useNewUrlPars
     
     .catch(err=> console.log("ERROR connecting to DB: ", err))
 
+    
+
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({extended:true}))// in place of body-parser
 app.use(express.json())// in place of body-parser
 app.use(cors())
+
+
+//PORT = 8000
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`)
+})
 
 //renders the main page with the inputs
 
