@@ -7,6 +7,13 @@ require('dotenv').config()
 
 // const main = require("./public/main.js") remvoed to get main.js to work
 
+
+//PORT = 8000
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`)
+})
+
+
 let db,
     dbConnectionString = process.env.DB_STRING,
     dbName = 'AOE4',
@@ -839,9 +846,4 @@ app.post('/calculate', async (request, response)=>{
 
 
 
-
-//PORT = 8000
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`)
-})
 
