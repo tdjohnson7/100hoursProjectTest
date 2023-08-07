@@ -21,6 +21,9 @@ MongoClient.connect(dbConnectionString, {useUnifiedTopology: true, useNewUrlPars
         db = client.db(dbName)
         collection = db.collection('AOE42ndCollection')
         collection2 = db.collection('AOE4TechCollection')
+        app.listen(process.env.PORT || PORT, () => {
+            console.log(`Server is running on port ${process.env.PORT}`)
+        })
     })
     
     .catch(err=> console.log("ERROR connecting to DB: ", err))
@@ -842,8 +845,4 @@ app.post('/calculate', async (request, response)=>{
 
 
 
-//PORT = 8000
-app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`)
-})
 
