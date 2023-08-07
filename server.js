@@ -21,8 +21,8 @@ let db,
             
             db = await client.db(dbName)
             console.log(`Connected to Database`)
-            collection = db.collection('AOE42ndCollection')
-            collection2 = db.collection('AOE4TechCollection')      
+            collection = await db.collection('AOE42ndCollection')
+            collection2 = await db.collection('AOE4TechCollection')      
         }
         catch(err){
             
