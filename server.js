@@ -18,8 +18,9 @@ let db,
     const mongoConnect = async() =>{
         try{
             const client = await MongoClient.connect(dbConnectionString, {useUnifiedTopology: true, useNewUrlParser: true})
+            
+            db = await client.db(dbName)
             console.log(`Connected to Database`)
-            db = client.db(dbName)
             collection = db.collection('AOE42ndCollection')
             collection2 = db.collection('AOE4TechCollection')      
         }
