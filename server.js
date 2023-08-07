@@ -14,20 +14,33 @@ let db,
     dbName = 'AOE4',
     collection,
     collection2
-
-MongoClient.connect(dbConnectionString, {useUnifiedTopology: true, useNewUrlParser: true})
-    .then((client) => {
-        console.log(`Connected to Database`)
-        db = client.db(dbName)
-        collection = db.collection('AOE42ndCollection')
-        collection2 = db.collection('AOE4TechCollection')
-        app.listen(process.env.PORT || PORT, () => {
-            console.log(`Server is running on port ${process.env.PORT}`)
-        })
-    })
     
-    .catch(err=> console.log("ERROR connecting to DB: ", err))
-
+    const mongoConnect = async() =>{
+        try{
+            const client = await MongoClient.connect(dbConnectionString, {useUnifiedTopology: true, useNewUrlParser: true})
+            console.log(`Connected to Database`)
+            db = client.db(dbName)
+            collection = db.collection('AOE42ndCollection')
+            collection2 = db.collection('AOE4TechCollection')      
+        }
+        catch(err){
+            
+            console.log("ERROR connecting to DB: ", err)
+    
+        }
+    }
+    //  MongoClient.connect(dbConnectionString, {useUnifiedTopology: true, useNewUrlParser: true})
+    //     .then((client) => {
+    //         console.log(`Connected to Database`)
+    //         db = client.db(dbName)
+    //         collection = db.collection('AOE42ndCollection')
+    //         collection2 = db.collection('AOE4TechCollection')
+            
+    //     })
+        
+    //     .catch(err=> console.log("ERROR connecting to DB: ", err))
+ mongoConnect()
+    
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({extended:true}))// in place of body-parser
@@ -845,4 +858,8 @@ app.post('/calculate', async (request, response)=>{
 
 
 
+//PORT = 8000
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`)
+})
 
