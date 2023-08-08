@@ -525,8 +525,8 @@ app.post('/calculate', async (request, response)=>{
         teamOneRelevantArmor = unitObject1.armor[object1IndexOfRangedArmor].value
         unitObject1.relevantArmorType = 'ranged'
        }
-       else if(unitObject2.weapons[0].type == 'melee' && unitObject1.armor[0].value > 0 && object1IndexOfRangedArmor > -1){
-        teamOneRelevantArmor = unitObject1.armor[object1IndexOfMeleeArmor].value
+       else if(unitObject2.weapons[0].type == 'melee' && unitObject1.armor[0].value > 0 && object1IndexOfMeleeArmor > -1){
+        teamOneRelevantArmor = unitObject1.armor[object1IndexOfMeleeArmor].value 
         unitObject1.relevantArmorType = 'melee'
        }else{
         teamOneRelevantArmor = 0
