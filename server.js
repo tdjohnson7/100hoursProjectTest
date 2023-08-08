@@ -535,8 +535,14 @@ app.post('/calculate', async (request, response)=>{
        }
     
        //final calculation
-       const teamOneTrueDamage = Math.round((((teamOneDamage + teamOneWeaponModifier - teamTwoRelevantArmor) * numberOfUnits1) / teamOneAttackSpeed) * 100)/100
-       const teamTwoTrueDamage = Math.round((((teamTwoDamage + teamTwoWeaponModifier - teamOneRelevantArmor) * numberOfUnits2) / teamTwoAttackSpeed) * 100)/100
+       let teamOneTrueDamage = Math.round((((teamOneDamage + teamOneWeaponModifier - teamTwoRelevantArmor) * numberOfUnits1) / teamOneAttackSpeed) * 100)/100
+       if(teamOneTrueDamage < 1){
+        teamOneTrueDamage = 1
+       }
+       let teamTwoTrueDamage = Math.round((((teamTwoDamage + teamTwoWeaponModifier - teamOneRelevantArmor) * numberOfUnits2) / teamTwoAttackSpeed) * 100)/100
+       if(teamTwoTrueDamage < 1){
+        teamTwoTrueDamage = 1
+       }
 
        const teamOneTimeToKillTeamTwo = Math.round((teamTwoHitpoints / teamOneTrueDamage)*100)/100
        const teamTwoTimeToKillTeamOne = Math.round((teamOneHitpoints / teamTwoTrueDamage)*100)/100
