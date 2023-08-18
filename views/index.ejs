@@ -13,19 +13,7 @@
 </head>
 <body>
 
-<!-- <h2>This is a test, yo.</h2>
 
-<h2>Here's how you set up and push to Heroku.</h2>
-
-<ul>
-<li>git init</li>
-<li>heroku login</li>
-<li>heroku create</li>
-<li>echo "web: node server.js" > Procfile</li>
-<li>git add . </li>
-<li>git commit -m "changes"</li>
-<li>git push heroku main</li>
-</ul> -->
 <div class="divThree">
     <h1 id = "focus">AOE4 Unit Counter Calculator</h1>
     
@@ -36,10 +24,7 @@
 
     <div id="finalResult"></div>
     
-        <!-- <label for="addAnotherSelectRowForTeam1"></label>
-    <button id="addAnotherSelectRowForTeam1">Add Row Team1</button>
-    <label for="addAnotherSelectRowForTeam2"></label>
-    <button id="addAnotherSelectRowForTeam2">Add Row Team2</button> -->
+
 
 </div>
 
@@ -118,8 +103,8 @@
                             <option value="fr">French</option>
                             <option value="mo">Mongols</option>
                             <option value="ru">Rus</option>
-                            <option value="ot">Ottomans</option>
-                            <option value="ma">Malians</option>
+                            <!-- <option value="ot">Ottomans</option>
+                            <option value="ma">Malians</option> -->
                         </select>
                     </section>
                     <br>
@@ -131,9 +116,7 @@
                             <% for(let i=0; i < info.length; i++) {%>
                             
                                 <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i] %></option>
-                                <!-- <option id="selectedUnit1" value="<%= info[i]._id  %>"> <%= info[i].name %> (Age <%= info[i].age %>) Civs: <%= info[i].civs %></option> -->
-
-
+                                
                             <% } %>       
                             
                         </select>
@@ -144,8 +127,7 @@
                         <label for="selectAgeNumberTwo">Choose an Age</label>
                         <select id="selectAgeNumberTwo" name="selectAgeNumberTwo" title="agesForSelection2"       class="selectNumberOne"  onchange="getTechs2(this)" >
                         
-                            
-                
+                                           
                         </select>
                     </section>
                     <br>
@@ -171,61 +153,8 @@
         </div>
         <div id = "divFour">
             <button id= 'submit' type="submit" >Submit</button>
-        </div>
-        
-        
-            
-            <!-- <section>
-                <h1 id="test">test</h1>
-                <section id="sectionToHide" class="hidden">
-                    <ul>
-                        <li> number 1</li>
-                        <li> number 2</li>
-                        <li> number 3</li>
-                    </ul>
-                </section>
-            </section> -->
-            <!-- <section>
-                <p>winningUnit</p>
-            </section> -->
-            <!-- <section id="winningUnit">
-                <h1>result.winningUnit.name</h1>
-                <section id="teamOneExpandOne">
-                    
-                    <p>teamOneTimeToKillTeamTwo = teamTwoHitpoints / teamOneTrueDamage</p>
-                        <section>
-                            teamTwoHitpoints = winningUnit.hitpoint X numberOfUnits1
-                        </section>
-                        <section>
-                            teamOneTrueDamage = ((teamOneDamage + teamOneWeaponModifier - teamTwoRelevantArmor) X numberOfUnits1) / teamOneAttackSpeed
-                        </section>
-                    <p>teamOneTrueDamage</p>
-                    <section>
-                         
-                    </section>
-                    <p>teamOneRevelantArmor</p>
-                    <p>teamOneWea</p>
-                    <p>result.winner.bonus damage</p>
-                </section>
-            </section>
-            <section>
-                <h1>result.loser</h1>
-
-            </section> -->
-        
-        
-        
-        
-        
+        </div>     
     </form>
-    
-    
-   
-    
-    
-    
-    
-    
 
 <script src="/main.js">  
 
