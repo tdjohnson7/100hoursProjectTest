@@ -2,6 +2,7 @@
 
 This app is designed to help Age of Empires 4 players simulate a battle between two teams of units to see which side would defeat the other without the rigorous, difficult and tedious setup it takes to create a true simulation in the game.
 
+![7w7p2l](https://github.com/tdjohnson7/Age-of-Empires-4-Unit-Counter-Calculator/assets/102444625/9b62ddc3-a7db-45de-826c-f6c79dcfdafa)
 **Link to project:** https://gleaming-puce-parrot.cyclic.app/
 
 ## How It's Made:
@@ -23,6 +24,3 @@ update with new civs
 Ejs cannot be is ummutable after it is rendered. Javascript is needed to manipulate the generated html to add information to the DOM
 targeting elements that are not intially rendered (result section)
 running a script to change the documents in the database to better fit my use for them
-
-
-![7w7p2l](https://github.com/tdjohnson7/Age-of-Empires-4-Unit-Counter-Calculator/assets/102444625/9b62ddc3-a7db-45de-826c-f6c79dcfdafa)
