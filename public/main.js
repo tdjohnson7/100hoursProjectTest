@@ -308,3 +308,7 @@ function unhideLosingUnitSection(event){
 
 document.querySelector('#finalResult').addEventListener('click',unhideWinningUnitSection)
 document.querySelector('#finalResult').addEventListener('click',unhideLosingUnitSection)
+
+
+console.log(window.location.hostname)
+console.log(document.location.hostname)
