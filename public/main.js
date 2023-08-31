@@ -310,5 +310,3 @@ document.querySelector('#finalResult').addEventListener('click',unhideWinningUni
 document.querySelector('#finalResult').addEventListener('click',unhideLosingUnitSection)
 
 
-console.log(window.location.hostname)
-console.log(document.location.hostname)
