@@ -61,6 +61,8 @@ app.post('/getUnits', async (request, response)=>{
     
     try{
         const units = await db.collection('AOE42ndCollection').distinct('name',{civs: {$in:[request.body.selectedCiv]}})
+        console.log(units)
+
         response.json(units)
     }
     catch(err){

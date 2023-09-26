@@ -28,6 +28,7 @@ async function getUnits2(selection){
                 'selectedCiv' : document.querySelector('#selectCivNumberTwo').selectedOptions[0].getAttribute('value')
             })
         })
+        console.log(requestFromMainJS)
         const itemObject = await requestFromMainJS.json()
         selectUnitNumberTwo.innerHTML= ''
         for(i=0; i<itemObject.length; i++){
