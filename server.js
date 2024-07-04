@@ -22,7 +22,7 @@ let db,
             db = await client.db(dbName)
             console.log(`Connected to Database`)
             collection = await db.collection('AOE42ndCollection')
-            collection2 = await db.collection('AOE4TechCollection')
+            collection2 = await db.collection('AOE42ndTechCollection')
             app.listen(process.env.PORT || PORT, () => {
                 console.log(`Server is running on port ${process.env.PORT}`)
             })
@@ -46,9 +46,7 @@ app.use(cors())
 
 app.get('/', async (request, response)=>{
     try{
-        console.log('hello')
         const listOfUnits2 = await collection.distinct('name',{civs: {$in:['ab']}})
-        console.log(listOfUnits2)
         const result = await listOfUnits2
         response.render('index.ejs', {info: result});
     }
@@ -61,7 +59,7 @@ app.post('/getUnits', async (request, response)=>{
     
     try{
         const units = await db.collection('AOE42ndCollection').distinct('name',{civs: {$in:[request.body.selectedCiv]}})
-        console.log(units)
+        // console.log('units', units)
 
         response.json(units)
     }
@@ -75,7 +73,17 @@ app.post('/getSelectAge', async (request, response)=>{
         const itemsAges = await db.collection('AOE42ndCollection').find({'name': request.body.selectText, 'civs':{$in: [request.body.selectCiv.toLowerCase()]}},{projection: {age: 1, _id: 0}}).sort({age: 1})
         const result = await itemsAges.toArray();    
         await itemsAges.close();
-        response.json(result);
+        const addMissingAges = (array) => {
+            array.sort((a,b)=>a.age - b.age)
+            for(i=array[0].age;i<=4;i++){
+                if(!array.some(x=> x.age == i)){
+                    array.push({age: i})
+            }}
+           return array.sort((a,b)=>a.age - b.age)
+        }
+        const result2 = addMissingAges(result)
+        console.log(result2)
+        response.json(result2);
     }
     catch(err){
         console.log(err)
@@ -88,15 +96,19 @@ app.post('/getSelectTechs', async (request, response)=>{
 
         const filter2 = {civs:{ $in: [request.body.selectCiv]}, effectedUnitIds: {$in: [request.body.selectText.toLowerCase().replace(' ','-')]}, minAge: {$lte: Number(request.body.selectAge)}}
 
-        const client = await MongoClient.connect(
-        'mongodb+srv://tdjohnson91:Mongo1011657@cluster0.qauwu.mongodb.net/?retryWrites=true&w=majority',
-        { useNewUrlParser: true, useUnifiedTopology: true }
-  );
-        const coll = client.db('AOE4').collection('AOE42ndTechCollection');
-        const cursor = await coll.find(filter2);
-        const result = await cursor.toArray();
-        await client.close();
-
+//         const client = await MongoClient.connect(
+//         'mongodb+srv://tdjohnson91:Mongo1011657@cluster0.qauwu.mongodb.net/?retryWrites=true&w=majority',
+//         { useNewUrlParser: true, useUnifiedTopology: true }
+//   );
+        // const coll = client.db('AOE4').collection('AOE42ndTechCollection');
+        const cursor = await collection2.find(filter2);
+        let result = await cursor.toArray();
+        // await client.close();
+            
+        if(result.length == 0){
+            result = [{name: 'No Techs to Display'}]
+        }
+        
         response.json(result);
   }
     
@@ -107,7 +119,6 @@ app.post('/getSelectTechs', async (request, response)=>{
 
 //grab the values within the dropdown list and returns their stats to calculate which team wins and then renders the results page
 app.post('/calculate', async (request, response)=>{
-   console.log('/calculate request.body',request.body)
     try{
         let unitObject1 = await collection.findOne({'name': request.body.unit1, 'civs': {$in: [request.body.civ1]}, 'age': Number(request.body.age1)})
         let unitObject2 = await collection.findOne({'name': request.body.unit2, 'civs': {$in: [request.body.civ2]}, 'age': Number(request.body.age2)})
@@ -436,7 +447,6 @@ app.post('/calculate', async (request, response)=>{
         }
        }
 
-       console.log('result', result)
        response.json(result)
     }     
     catch(err){

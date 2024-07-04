@@ -8,9 +8,11 @@ async function getUnits1(selection){
             })
         })
         const itemObject = await requestFromMainJS.json()
+        console.log("itemObject getUnits1", itemObject)
+
         selectUnitNumberOne.innerHTML= ''
         for(i=0; i<itemObject.length; i++){
-            selectUnitNumberOne.innerHTML += `<option title="Select a civ" id="" value="">${itemObject[i]}</option>`
+            selectUnitNumberOne.innerHTML += `<option id="" value="${itemObject[i]._id}">${itemObject[i]}</option>`
         }
 
     }
@@ -32,9 +34,9 @@ async function getUnits2(selection){
         const itemObject = await requestFromMainJS.json()
         selectUnitNumberTwo.innerHTML= ''
         for(i=0; i<itemObject.length; i++){
-            selectUnitNumberTwo.innerHTML += `<option title="Select a civ" id="" value="">${itemObject[i]}</option>`
+            selectUnitNumberTwo.innerHTML += `<option title="Select a civ" id="" value="${itemObject[i]._id}">${itemObject[i]}</option>`
         }
-        getAges2()
+        // getAges2()
 
     }
     catch(err){
@@ -167,24 +169,24 @@ async function bigBoy2(){
 bigBoy1()
 bigBoy2()
 
-async function agesThenTechs1(){
-    try{
-        await getAges1()
-        await getTechs1()
-    }
-    catch(err){
-        console.log(err)
-    }
-}
-async function agesThenTechs2(){
-    try{
-        await getAges2()
-        await getTechs2()
-    }
-    catch(err){
-        console.log(err)
-    }
-}
+// async function agesThenTechs1(){
+//     try{
+//         await getAges1()
+//         await getTechs1()
+//     }
+//     catch(err){
+//         console.log(err)
+//     }
+// }
+// async function agesThenTechs2(){
+//     try{
+//         await getAges2()
+//         await getTechs2()
+//     }
+//     catch(err){
+//         console.log(err)
+//     }
+// }
 
 const form = document.getElementById('form')
 
