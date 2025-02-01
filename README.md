@@ -10,7 +10,7 @@ This app is designed to help Age of Empires 4 players simulate a battle between 
 
 **Tech used:** HTML, CSS, JavaScript, EJS, Node, Express, MongoDB
 
-The app is built by using Javascript, EJS and CSS on the frontend with a Node.js backend. Each select element a different set on information from the MongoDB database based on the values of the other select elements to show the correct stats for the unit specified. Once the user has chosed two teams and they hit the submit button, the form is sent to the Node.js server and a series of calculations are used to determine a team's true damage (damage minus armor, etc.) and time to kill the other team. Once the calculations are complete a response is sent back and the page is updated with javascript. 
+The app is built by using Javascript, EJS and CSS on the frontend with a Node.js backend. Each select element houses a different set on information from the MongoDB database based on the values of the other select elements to show the correct stats for the unit specified (civ > unit > age > techs available.) Once the user has chosed two teams and they hit the submit button, the form is sent to the Node.js server and a series of calculations are used to determine a team's true damage (damage minus armor, etc.) and time to kill the other team. Once the calculations are complete a response is sent back and the page is updated with javascript. 
 
 ## Optimizations
 
